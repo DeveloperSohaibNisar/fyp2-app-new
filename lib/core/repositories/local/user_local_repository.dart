@@ -24,4 +24,8 @@ class UserLocalRepository {
     final token = await storageService.get(authTokenStorageKey);
     return token as String?;
   }
+
+  Future<bool> removeToken() async {
+    return await storageService.remove(authTokenStorageKey);
+  }
 }

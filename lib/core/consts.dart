@@ -8,4 +8,6 @@ enum NotesSortMenuItems { creationDate, lines, title, editDate }
 // const String USER_LOCAL_STORAGE_KEY = 'user';
 const String appThemeStorageKey = 'AppTheme';
 const String authTokenStorageKey = 'AuthToken';
-const String serverURL = 'http://10.0.2.2:3000';
+// const String serverURL = 'http://10.0.2.2:3000';
+const String serverURL = "http://localhost:3000";
+

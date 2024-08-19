@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
@@ -46,16 +47,17 @@ class _RecorderViewState extends State<RecorderView> {
   }
 
   Future<void> record() async {
+    log('--------------record------------------');
     try {
       if (await _audioRecorder.hasPermission()) {
-        const encoder = AudioEncoder.aacLc;
+        const encoder = AudioEncoder.pcm16bits;
 
         if (!await _audioRecorder.isEncoderSupported(encoder)) {
           return;
         }
 
         var dir = Directory('/storage/emulated/0/Download/').path;
-        var name = 'audio_${DateTime.now().millisecondsSinceEpoch}.m4a';
+        var name = 'audio_${DateTime.now().millisecondsSinceEpoch}.wav';
         var path = dir + name;
 
         const config = RecordConfig(encoder: encoder, numChannels: 1);
@@ -74,6 +76,8 @@ class _RecorderViewState extends State<RecorderView> {
         });
 
         isRecording = true;
+      }else{
+        throw('no permission');
       }
     } catch (e) {
       if (kDebugMode) {
@@ -83,31 +87,30 @@ class _RecorderViewState extends State<RecorderView> {
   }
 
   Future<void> stop() async {
+    log('--------------stop------------------');
     final path = await _audioRecorder.stop();
     if (kDebugMode) {
       print(path);
     }
     _timer?.cancel();
+    _recordSub?.cancel();
+    _amplitudeSub?.cancel();
     isRecording = false;
   }
 
   Future<void> pause() async {
+    log('--------------pause------------------');
     await _audioRecorder.pause();
     _timer?.cancel();
     isRecording = false;
   }
 
-  Future<void> cancel() async {
-    _audioRecorder.cancel();
-    _timer?.cancel();
-    _recordSub?.cancel();
-    _amplitudeSub?.cancel();
-    _recordDuration = Duration.zero;
-    isRecording = false;
-    _clearAllItems();
+  void cancel(BuildContext context) {
+    Navigator.pop(context);
   }
 
   Future<void> resume() async {
+    log('--------------resume------------------');
     await _audioRecorder.resume();
     startTimer();
     isRecording = true;
@@ -121,19 +124,21 @@ class _RecorderViewState extends State<RecorderView> {
 
   @override
   dispose() {
-    cancel();
+    _timer?.cancel();
+    _recordSub?.cancel();
+    _amplitudeSub?.cancel();
     _audioRecorder.dispose();
     super.dispose();
   }
 
-  void _clearAllItems() {
-    for (var i = 0; i <= samples.length - 1; i++) {
-      _recorderwavekey.currentState?.removeItem(0, (context, animation) {
-        return Container();
-      });
-    }
-    samples.clear();
-  }
+  // void _clearAllItems() {
+  //   for (var i = 0; i <= samples.length - 1; i++) {
+  //     _recorderwavekey.currentState?.removeItem(0, (context, animation) {
+  //       return Container();
+  //     });
+  //   }
+  //   samples.clear();
+  // }
 
   double updateVolume(ampl) {
     return (ampl.current - minVolume) / minVolume;
@@ -153,7 +158,7 @@ class _RecorderViewState extends State<RecorderView> {
         leadingWidth: 95,
         leading: TextButton(
           style: ButtonStyle(
-              shape: MaterialStateProperty.all(
+              shape: WidgetStateProperty.all(
             RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(0),
             ),
@@ -226,7 +231,7 @@ class _RecorderViewState extends State<RecorderView> {
               ),
 
               // Text(_amplitude != null ? _amplitude!.current.toString() : 'null'),
-              // const SizedBox(height: 32),
+              const SizedBox(height: 32),
               ShaderMask(
                 shaderCallback: (Rect bounds) {
                   return const LinearGradient(
@@ -273,12 +278,12 @@ class _RecorderViewState extends State<RecorderView> {
                         borderRadius: BorderRadius.circular(50)),
                     child: IconButton.filledTonal(
                       onPressed: () async {
-                        await cancel();
+                        cancel(context);
                         setState(() {});
                       },
                       iconSize: 32,
                       style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all(
+                          backgroundColor: WidgetStateProperty.all(
                         const Color.fromRGBO(252, 138, 25, .4),
                       )),
                       padding: const EdgeInsets.all(12),
@@ -343,7 +348,7 @@ class _RecorderViewState extends State<RecorderView> {
                       },
                       iconSize: 32,
                       style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all(
+                          backgroundColor: WidgetStateProperty.all(
                         const Color.fromRGBO(252, 138, 25, .4),
                       )),
                       padding: const EdgeInsets.all(12),

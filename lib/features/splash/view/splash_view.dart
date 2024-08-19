@@ -6,11 +6,12 @@ import 'package:fyp2_clean_architecture/core/providers/user/current_user.dart';
 import 'package:fyp2_clean_architecture/core/util.dart';
 import 'package:fyp2_clean_architecture/core/widgets/loader.dart';
 import 'package:fyp2_clean_architecture/features/auth/view/welcome.dart';
-import 'package:fyp2_clean_architecture/features/home/home_view.dart';
+import 'package:fyp2_clean_architecture/features/home/view/home_view.dart';
 
 class SplashView extends ConsumerWidget {
   static const routeName = '/Splash';
   const SplashView({super.key});
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentUserProviderValue = ref.watch(currentUserProvider);

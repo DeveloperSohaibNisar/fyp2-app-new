@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:fyp2_clean_architecture/features/home/tabpages/pdf/pdf_filter.dart';
-import 'package:fyp2_clean_architecture/features/home/tabpages/pdf/pdf_list.dart';
+import 'package:fyp2_clean_architecture/features/home/view/tabpages/pdf/pdf_filter.dart';
+import 'package:fyp2_clean_architecture/features/home/view/tabpages/pdf/pdf_list.dart';
 
 
 class PdfView extends StatelessWidget {

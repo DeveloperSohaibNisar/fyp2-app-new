@@ -5,7 +5,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPrefsService implements StorageService {
   SharedPreferences? sharedPreferences;
-
+  SharedPrefsService() {
+    // ignore: invalid_use_of_visible_for_testing_member
+    // SharedPreferences.setMockInitialValues({});
+  }
   final Completer<SharedPreferences> initCompleter =
       Completer<SharedPreferences>();
 

@@ -17,20 +17,24 @@ class SettingsView extends ConsumerWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
-        // Glue the SettingsController to the theme selection DropdownButton.
-        //
-        // When a user selects a theme from the dropdown list, the
-        // SettingsController is updated, which rebuilds the MaterialApp.
-        child: Switch(
-          value: themeMode.index == 2,
-          onChanged: (enabled) async {
-            // print(enabled);
-            if (enabled) {
-              await ref.read(appThemeProvider.notifier).toggleTheme();
-            } else {
-              await ref.read(appThemeProvider.notifier).toggleTheme();
-            }
-          },
+        child: Row(
+          children: [
+            const Text(
+                style: TextStyle(
+                  // fontSize: 14,
+                ),
+                'Dark Mode'),
+            Switch(
+              value: themeMode.index == 2,
+              onChanged: (enabled) async {
+                if (enabled) {
+                  await ref.read(appThemeProvider.notifier).toggleTheme();
+                } else {
+                  await ref.read(appThemeProvider.notifier).toggleTheme();
+                }
+              },
+            ),
+          ],
         ),
       ),
     );

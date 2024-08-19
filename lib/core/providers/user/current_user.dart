@@ -1,3 +1,4 @@
+import 'package:fyp2_clean_architecture/core/failures/general_failure.dart';
 import 'package:fyp2_clean_architecture/core/models/user/user_model.dart';
 import 'package:fyp2_clean_architecture/core/repositories/local/user_local_repository.dart';
 import 'package:fyp2_clean_architecture/core/repositories/remote/user_remote_repository.dart';
@@ -32,6 +33,17 @@ class CurrentUser extends _$CurrentUser {
       });
     } else {
       state = null;
+    }
+  }
+
+  Future<void> logout() async {
+    state = const AsyncValue.loading();
+    bool tokenRemoved = await _userLocalRepository.removeToken();
+    if (tokenRemoved) {
+      state = null;
+    } else {
+      AsyncValue.error(
+          GeneralFailure(message: 'unable to logout'), StackTrace.current);
     }
   }
 }

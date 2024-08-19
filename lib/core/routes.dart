@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fyp2_clean_architecture/features/auth/view/signin.dart';
 import 'package:fyp2_clean_architecture/features/auth/view/signup.dart';
 import 'package:fyp2_clean_architecture/features/auth/view/welcome.dart';
-import 'package:fyp2_clean_architecture/features/home/home_view.dart';
+import 'package:fyp2_clean_architecture/features/home/view/home_view.dart';
 import 'package:fyp2_clean_architecture/features/pdf_summary/pdf_summary_tabs_view.dart';
 import 'package:fyp2_clean_architecture/features/recorder/recorder_view.dart';
 import 'package:fyp2_clean_architecture/features/recording_summary/recording_summary_tabs_view.dart';
