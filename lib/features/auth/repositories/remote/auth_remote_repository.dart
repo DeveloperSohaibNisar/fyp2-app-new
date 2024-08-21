@@ -26,7 +26,7 @@ class AuthRemoteRepository {
       final response = await http
           .post(
         Uri.parse(
-          '$serverURL/api/signup/',
+          '$serverURL/signup/',
         ),
         headers: {
           'Content-Type': 'application/json',
@@ -74,7 +74,7 @@ class AuthRemoteRepository {
       final response = await http
           .post(
         Uri.parse(
-          '$serverURL/api/login/',
+          '$serverURL/login/',
         ),
         headers: {
           'Content-Type': 'application/json',
@@ -112,36 +112,36 @@ class AuthRemoteRepository {
     }
   }
 
-  Future<Either<GeneralFailure, UserModel>> getUserData(
-      {required String token}) async {
-    try {
-      final response = await http.get(
-        Uri.parse(
-          '$serverURL/api/user/',
-        ),
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer $token',
-        },
-      ).timeout(
-        const Duration(seconds: 30),
-        onTimeout: () {
-          throw 'Network Timeout Error';
-        },
-      );
+  // Future<Either<GeneralFailure, UserModel>> getUserData(
+  //     {required String token}) async {
+  //   try {
+  //     final response = await http.get(
+  //       Uri.parse(
+  //         '$serverURL/user/',
+  //       ),
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //         'Authorization': 'Bearer $token',
+  //       },
+  //     ).timeout(
+  //       const Duration(seconds: 30),
+  //       onTimeout: () {
+  //         throw 'Network Timeout Error';
+  //       },
+  //     );
 
-      final resBodyMap = jsonDecode(response.body) as Map<String, dynamic>;
+  //     final resBodyMap = jsonDecode(response.body) as Map<String, dynamic>;
 
-      if (response.statusCode == 200) {
-        return Right(UserModel.fromJson(resBodyMap).copyWith(token: token));
-      } else if (resBodyMap.containsKey('message') &&
-          resBodyMap['message'] != null) {
-        throw resBodyMap['message']!;
-      } else {
-        throw 'Something went wrong';
-      }
-    } catch (e) {
-      return Left(GeneralFailure(message: e.toString()));
-    }
-  }
+  //     if (response.statusCode == 200) {
+  //       return Right(UserModel.fromJson(resBodyMap).copyWith(token: token));
+  //     } else if (resBodyMap.containsKey('message') &&
+  //         resBodyMap['message'] != null) {
+  //       throw resBodyMap['message']!;
+  //     } else {
+  //       throw 'Something went wrong';
+  //     }
+  //   } catch (e) {
+  //     return Left(GeneralFailure(message: e.toString()));
+  //   }
+  // }
 }

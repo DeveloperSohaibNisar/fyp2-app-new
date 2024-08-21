@@ -20,7 +20,7 @@ class UserRemoteRepository {
     try {
       final response = await http.get(
         Uri.parse(
-          '$serverURL/api/user/',
+          '$serverURL/user/',
         ),
         headers: {
           'Content-Type': 'application/json',

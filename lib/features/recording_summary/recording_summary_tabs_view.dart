@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:fyp2_clean_architecture/core/widgets/summary.dart';
+import 'package:fyp2_clean_architecture/features/home/model/recording_list_item/recording_list_item_model.dart';
 import 'chat_view.dart';
-import 'summary_view.dart';
 import 'transcription/transcription_view.dart';
 
 class RecordTabView extends StatelessWidget {
-  const RecordTabView({super.key});
+  final RecordingListItemModel recording;
+  const RecordTabView({super.key, required this.recording});
+
   static const routeName = '/RecordTabView';
 
   @override
@@ -13,7 +16,7 @@ class RecordTabView extends StatelessWidget {
       length: 3,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Recording123'),
+          title: Text(recording.name),
           centerTitle: true,
           bottom: PreferredSize(
             preferredSize: const Size.fromHeight(90),
@@ -84,13 +87,15 @@ class RecordTabView extends StatelessWidget {
             ),
           ),
         ),
-        body: const TabBarView(
+        body: TabBarView(
           children: [
             Padding(
-              padding: EdgeInsets.all(10.0),
-              child: Summary(),
+              padding: const EdgeInsets.all(10.0),
+              child: Summary(
+                summarytext: recording.transcriptionData.text ?? 'no text',
+              ),
             ),
-            TranscriptionView(),
+            TranscriptionView(recording: recording),
             ChatView(),
           ],
         ),

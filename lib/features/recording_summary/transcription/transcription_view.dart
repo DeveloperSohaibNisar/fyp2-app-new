@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:fyp2_clean_architecture/features/home/model/recording_list_item/recording_list_item_model.dart';
 import 'package:fyp2_clean_architecture/features/recording_summary/transcription/seekbar.dart';
 import 'package:fyp2_clean_architecture/models/transcription.dart';
 import 'package:fyp2_clean_architecture/models/transcription_item.dart';
@@ -8,7 +9,8 @@ import 'package:rxdart/rxdart.dart';
 import 'package:audio_session/audio_session.dart';
 
 class TranscriptionView extends StatefulWidget {
-  const TranscriptionView({super.key});
+  final RecordingListItemModel recording;
+  const TranscriptionView({super.key, required this.recording});
 
   @override
   State<TranscriptionView> createState() => _TranscriptionViewState();
@@ -16,64 +18,65 @@ class TranscriptionView extends StatefulWidget {
 
 class _TranscriptionViewState extends State<TranscriptionView>
     with WidgetsBindingObserver {
-  final transcription = TranscriptionClass(
-    id: 1,
-    audioUrl:
-        'https://www.flatworldsolutions.com/transcription/samples/Monologue.mp3',
-    audioLength: const Duration(minutes: 2, seconds: 4),
-    data: [
-      TranscriptionItem(
-        id: 0,
-        start: const Duration(seconds: 0),
-        end: const Duration(seconds: 3),
-        text:
-            'Well, hello there. So this week, I built a bot that takes voice notes, like the one that I\'m recording right now, turns them to text, and sends that text',
-      ),
-      TranscriptionItem(
-        id: 0,
-        start: const Duration(seconds: 4),
-        end: const Duration(seconds: 7),
-        text:
-            'to my notes database in Notion. And by text, I don\'t just mean a transcript. I also get a full summary, a list of the main points in the text,',
-      ),
-      TranscriptionItem(
-        id: 0,
-        start: const Duration(seconds: 8),
-        end: const Duration(seconds: 24),
-        text:
-            'and also a list of action items. Today, I\'m gonna show you exactly how to build this workflow for yourself.',
-      ),
-      TranscriptionItem(
-        id: 0,
-        start: const Duration(seconds: 25),
-        end: const Duration(minutes: 1),
-        text:
-            'It is surprisingly easy to set up, and once you do have it built, it is completely hands-off and automated, which makes it awesome.',
-      ),
-      TranscriptionItem(
-        id: 0,
-        start: const Duration(minutes: 1, seconds: 1),
-        end: const Duration(minutes: 1, seconds: 17),
-        text:
-            'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s,',
-      ),
-      TranscriptionItem(
-        id: 0,
-        start: const Duration(minutes: 1, seconds: 18),
-        end: const Duration(minutes: 1, seconds: 53),
-        text:
-            'when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting,',
-      ),
-      TranscriptionItem(
-        id: 0,
-        start: const Duration(minutes: 1, seconds: 54),
-        end: const Duration(minutes: 2, seconds: 4),
-        text:
-            'remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.',
-      ),
-    ],
-  );
-  final _player = AudioPlayer();
+  // final transcription = TranscriptionClass(
+  //   id: 1,
+  //   audioUrl:
+  //       'https://www.flatworldsolutions.com/transcription/samples/Monologue.mp3',
+  //   audioLength: const Duration(minutes: 2, seconds: 4),
+  //   data: [
+  //     TranscriptionItem(
+  //       id: 0,
+  //       start: const Duration(seconds: 0),
+  //       end: const Duration(seconds: 3),
+  //       text:
+  //           'Well, hello there. So this week, I built a bot that takes voice notes, like the one that I\'m recording right now, turns them to text, and sends that text',
+  //     ),
+  //     TranscriptionItem(
+  //       id: 0,
+  //       start: const Duration(seconds: 4),
+  //       end: const Duration(seconds: 7),
+  //       text:
+  //           'to my notes database in Notion. And by text, I don\'t just mean a transcript. I also get a full summary, a list of the main points in the text,',
+  //     ),
+  //     TranscriptionItem(
+  //       id: 0,
+  //       start: const Duration(seconds: 8),
+  //       end: const Duration(seconds: 24),
+  //       text:
+  //           'and also a list of action items. Today, I\'m gonna show you exactly how to build this workflow for yourself.',
+  //     ),
+  //     TranscriptionItem(
+  //       id: 0,
+  //       start: const Duration(seconds: 25),
+  //       end: const Duration(minutes: 1),
+  //       text:
+  //           'It is surprisingly easy to set up, and once you do have it built, it is completely hands-off and automated, which makes it awesome.',
+  //     ),
+  //     TranscriptionItem(
+  //       id: 0,
+  //       start: const Duration(minutes: 1, seconds: 1),
+  //       end: const Duration(minutes: 1, seconds: 17),
+  //       text:
+  //           'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s,',
+  //     ),
+  //     TranscriptionItem(
+  //       id: 0,
+  //       start: const Duration(minutes: 1, seconds: 18),
+  //       end: const Duration(minutes: 1, seconds: 53),
+  //       text:
+  //           'when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting,',
+  //     ),
+  //     TranscriptionItem(
+  //       id: 0,
+  //       start: const Duration(minutes: 1, seconds: 54),
+  //       end: const Duration(minutes: 2, seconds: 4),
+  //       text:
+  //           'remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.',
+  //     ),
+  //   ],
+  // );
+
+  final AudioPlayer _player = AudioPlayer();
   // Create a player
 
   @override
@@ -99,9 +102,9 @@ class _TranscriptionViewState extends State<TranscriptionView>
     // Try to load audio from a source and catch any errors.
     try {
       // MP3 example: https://www.flatworldsolutions.com/transcription/samples/Monologue.mp3
-      await _player
-          .setAudioSource(AudioSource.uri(Uri.parse(transcription.audioUrl)));
-    } on PlayerException catch (e) {
+      await _player.setAudioSource(
+          AudioSource.uri(Uri.parse(widget.recording.audioUrl)));
+    } catch (e) {
       if (kDebugMode) {
         print("Error loading audio source: $e");
       }
@@ -113,8 +116,12 @@ class _TranscriptionViewState extends State<TranscriptionView>
     WidgetsBinding.instance.removeObserver(this);
     // Release decoders and buffers back to the operating system making them
     // available for other apps to use.
-    _player.dispose();
+    _dispose();
     super.dispose();
+  }
+
+  Future<void> _dispose() async {
+    await _player.dispose();
   }
 
   @override
@@ -153,13 +160,17 @@ class _TranscriptionViewState extends State<TranscriptionView>
                 return ListView.builder(
                     scrollDirection: Axis.vertical,
                     shrinkWrap: true,
-                    itemCount: transcription.data.length,
+                    itemCount: widget.recording.transcriptionData.chunks.length,
                     itemBuilder: (BuildContext context, int index) {
                       return Container(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 24, vertical: 8),
-                        color: position > transcription.data[index].start &&
-                                position < transcription.data[index].end
+                        color: position >
+                                    widget.recording.transcriptionData
+                                        .chunks[index].timestamp[0] &&
+                                position <
+                                    widget.recording.transcriptionData
+                                        .chunks[index].timestamp[1]
                             ? Colors.grey[100]
                             : Colors.white,
                         child: Column(
@@ -172,8 +183,10 @@ class _TranscriptionViewState extends State<TranscriptionView>
                                 fontSize: 14,
                               ),
                               [
-                                transcription.data[index].start.inMinutes,
-                                transcription.data[index].start.inSeconds
+                                widget.recording.transcriptionData.chunks[index]
+                                    .timestamp[0].inMinutes,
+                                widget.recording.transcriptionData.chunks[index]
+                                    .timestamp[0].inSeconds
                               ]
                                   .map((seg) => seg
                                       .remainder(60)
@@ -183,7 +196,8 @@ class _TranscriptionViewState extends State<TranscriptionView>
                             ),
                             const SizedBox(height: 8),
                             Text(
-                              transcription.data[index].text,
+                              widget.recording.transcriptionData.chunks[index]
+                                  .text,
                               style: const TextStyle(
                                 fontSize: 14,
                               ),

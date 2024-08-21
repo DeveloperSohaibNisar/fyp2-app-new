@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:fyp2_clean_architecture/features/auth/view/signin.dart';
 import 'package:fyp2_clean_architecture/features/auth/view/signup.dart';
 import 'package:fyp2_clean_architecture/features/auth/view/welcome.dart';
+import 'package:fyp2_clean_architecture/features/home/model/recording_list_item/recording_list_item_model.dart';
 import 'package:fyp2_clean_architecture/features/home/view/home_view.dart';
+import 'package:fyp2_clean_architecture/features/illegal_argument/illegal_argument_view.dart';
 import 'package:fyp2_clean_architecture/features/pdf_summary/pdf_summary_tabs_view.dart';
 import 'package:fyp2_clean_architecture/features/recorder/recorder_view.dart';
 import 'package:fyp2_clean_architecture/features/recording_summary/recording_summary_tabs_view.dart';
@@ -13,13 +15,18 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
   return MaterialPageRoute<void>(
       settings: routeSettings,
       builder: (BuildContext context) {
+        final argument = routeSettings.arguments;
         switch (routeSettings.name) {
           case SettingsView.routeName:
             return const SettingsView();
           case RecorderView.routeName:
             return const RecorderView();
           case RecordTabView.routeName:
-            return const RecordTabView();
+            if (argument is RecordingListItemModel) {
+              return RecordTabView(recording: argument);
+            } else {
+              return const IllegalArgumentView();
+            }
           case PdfTabsView.routeName:
             return const PdfTabsView();
           case HomeView.routeName:

@@ -7,34 +7,52 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'current_user.g.dart';
 
 @Riverpod(keepAlive: true)
+Future<UserModel?> getUser(GetUserRef ref) async {
+  final token = await ref.watch(userLocalRepositoryProvider).getToken();
+  if (token != null) {
+    final res =
+        await ref.watch(userRemoteRepositoryProvider).getUserData(token: token);
+
+    return res.fold(
+        (generalError) => throw generalError.message, (user) => user);
+  }
+  return null;
+}
+
+@Riverpod(keepAlive: true)
 class CurrentUser extends _$CurrentUser {
   late UserLocalRepository _userLocalRepository;
   late UserRemoteRepository _userRemoteRepository;
 
   @override
-  AsyncValue<UserModel>? build() {
+  AsyncValue<UserModel> build() {
     _userLocalRepository = ref.watch(userLocalRepositoryProvider);
     _userRemoteRepository = ref.watch(userRemoteRepositoryProvider);
-    getUser();
+    final asyncData = ref.watch(getUserProvider);
+
+    // return asyncData.when(
+    //   data: (data) => data,
+    //   error: (error, stackTrace) => 0, // Handle errors
+    //   loading: () => 0, //
     return const AsyncValue.loading();
   }
 
-  Future<void> getUser() async {
-    state = const AsyncValue.loading();
-    final token = await _userLocalRepository.getToken();
+  // Future<void> getUser() async {
+  //   state = const AsyncValue.loading();
+  //   final token = await _userLocalRepository.getToken();
 
-    if (token != null) {
-      final res = await _userRemoteRepository.getUserData(token: token);
+  //   if (token != null) {
+  //     final res = await _userRemoteRepository.getUserData(token: token);
 
-      res.fold(
-          (generalError) => state =
-              AsyncValue.error(generalError, StackTrace.current), (user) async {
-        state = AsyncValue.data(user.copyWith(token: token));
-      });
-    } else {
-      state = null;
-    }
-  }
+  //     res.fold(
+  //         (generalError) => state =
+  //             AsyncValue.error(generalError, StackTrace.current), (user) async {
+  //       state = AsyncValue.data(user.copyWith(token: token));
+  //     });
+  //   } else {
+  //     state = null;
+  //   }
+  // }
 
   Future<void> logout() async {
     state = const AsyncValue.loading();

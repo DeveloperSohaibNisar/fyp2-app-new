@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-class Summarytext extends StatelessWidget {
+class Summary extends StatelessWidget {
   final String summarytext;
-  const Summarytext({super.key, required this.summarytext});
+  const Summary({super.key, required this.summarytext});
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
