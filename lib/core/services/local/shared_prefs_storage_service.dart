@@ -4,49 +4,49 @@ import 'package:fyp2_clean_architecture/core/services/local/storage_service.dart
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPrefsService implements StorageService {
-  SharedPreferences? sharedPreferences;
+  SharedPreferences? _sharedPreferences;
   SharedPrefsService() {
     // ignore: invalid_use_of_visible_for_testing_member
     // SharedPreferences.setMockInitialValues({});
   }
-  final Completer<SharedPreferences> initCompleter =
+  final Completer<SharedPreferences> _initCompleter =
       Completer<SharedPreferences>();
 
   @override
   void init() {
-    initCompleter.complete(SharedPreferences.getInstance());
+    _initCompleter.complete(SharedPreferences.getInstance());
   }
 
   @override
-  bool get hasInitialized => sharedPreferences != null;
+  bool get hasInitialized => _sharedPreferences != null;
 
   @override
   Future<Object?> get(String key) async {
-    sharedPreferences = await initCompleter.future;
-    return sharedPreferences!.get(key);
+    _sharedPreferences = await _initCompleter.future;
+    return _sharedPreferences!.get(key);
   }
 
   @override
   Future<void> clear() async {
-    sharedPreferences = await initCompleter.future;
-    await sharedPreferences!.clear();
+    _sharedPreferences = await _initCompleter.future;
+    await _sharedPreferences!.clear();
   }
 
   @override
   Future<bool> has(String key) async {
-    sharedPreferences = await initCompleter.future;
-    return sharedPreferences?.containsKey(key) ?? false;
+    _sharedPreferences = await _initCompleter.future;
+    return _sharedPreferences?.containsKey(key) ?? false;
   }
 
   @override
   Future<bool> remove(String key) async {
-    sharedPreferences = await initCompleter.future;
-    return await sharedPreferences!.remove(key);
+    _sharedPreferences = await _initCompleter.future;
+    return await _sharedPreferences!.remove(key);
   }
 
   @override
   Future<bool> set(String key, data) async {
-    sharedPreferences = await initCompleter.future;
-    return await sharedPreferences!.setString(key, data.toString());
+    _sharedPreferences = await _initCompleter.future;
+    return await _sharedPreferences!.setString(key, data.toString());
   }
 }

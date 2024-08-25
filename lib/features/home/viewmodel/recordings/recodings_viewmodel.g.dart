@@ -1,27 +1,28 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'paginated_viewmodel.dart';
+part of 'recodings_viewmodel.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$homeViewModelHash() => r'88e85b8310049714e9db156ca84d029d43257038';
+String _$recodingsViewmodelHash() =>
+    r'089176ee581d1df7be1cb3c0393d0b6eced4fad0';
 
-/// See also [HomeViewModel].
-@ProviderFor(HomeViewModel)
-final homeViewModelProvider = AutoDisposeAsyncNotifierProvider<HomeViewModel,
-    AsyncValue<List<RecordingListItemModel>>>.internal(
-  HomeViewModel.new,
-  name: r'homeViewModelProvider',
+/// See also [RecodingsViewmodel].
+@ProviderFor(RecodingsViewmodel)
+final recodingsViewmodelProvider = AutoDisposeAsyncNotifierProvider<
+    RecodingsViewmodel, List<RecordingListItemModel>>.internal(
+  RecodingsViewmodel.new,
+  name: r'recodingsViewmodelProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$homeViewModelHash,
+      : _$recodingsViewmodelHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$HomeViewModel
-    = AutoDisposeAsyncNotifier<AsyncValue<List<RecordingListItemModel>>>;
+typedef _$RecodingsViewmodel
+    = AutoDisposeAsyncNotifier<List<RecordingListItemModel>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

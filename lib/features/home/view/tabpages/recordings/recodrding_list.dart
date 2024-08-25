@@ -1,63 +1,126 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fyp2_clean_architecture/core/consts.dart';
+import 'package:fyp2_clean_architecture/core/util.dart';
 import 'package:fyp2_clean_architecture/core/widgets/loader.dart';
 import 'package:fyp2_clean_architecture/features/home/model/recording_list_item/recording_list_item_model.dart';
-import 'package:fyp2_clean_architecture/features/home/viewmodel/home_viewmodel.dart';
+import 'package:fyp2_clean_architecture/features/home/viewmodel/recordings/recodings_viewmodel.dart';
 import 'package:fyp2_clean_architecture/features/recording_summary/recording_summary_tabs_view.dart';
 import 'package:intl/intl.dart';
 
-class RecordingList extends ConsumerWidget {
+class RecordingList extends ConsumerStatefulWidget {
   const RecordingList({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8),
-        child: ListView.builder(
-          shrinkWrap: true,
-          itemBuilder: (context, index) {
-            final page = index ~/ recordingsPerPage + 1;
-            final indexInPage = index % recordingsPerPage;
+  ConsumerState<RecordingList> createState() => _RecordingListState();
+}
 
-            final AsyncValue<List<RecordingListItemModel>> recordingsFuture =
-                ref.watch(getPaginatedRecordingsProvider(page - 1));
-            return recordingsFuture.when(
-              data: (recordings) {
-                if (indexInPage >= recordings.length) {
-                  return null;
-                }
+class _RecordingListState extends ConsumerState<RecordingList> {
+  final _scrollController = ScrollController();
 
-                final recording = recordings[indexInPage];
-                return Column(
-                  children: [
-                    index > 0 ? const Divider() : const SizedBox(),
-                    RecordingListTile(
-                      recording: recording,
-                    ),
-                  ],
-                );
-              },
-              error: (error, st) {
-                return indexInPage == 0
-                    ? Center(
-                        child: Text(
-                          error.toString(),
+  @override
+  Widget build(BuildContext context) {
+    final recordingsAsyncValue = ref.watch(recodingsViewmodelProvider);
+    final recordings = recordingsAsyncValue.value ?? [];
+    final isInitialLoading =
+        recordingsAsyncValue.isLoading && recordings.isEmpty;
+    final hasmore = ref.watch(recodingsViewmodelProvider.notifier).hasMore;
+    final isFetchingMore =
+        recordingsAsyncValue.isLoading && recordings.isNotEmpty;
+
+    void scrollControllerListener() {
+      if (_scrollController.position.maxScrollExtent ==
+          _scrollController.offset) {
+        if (!isFetchingMore && hasmore) {
+          ref.read(recodingsViewmodelProvider.notifier).fetchmore();
+        }
+      }
+    }
+
+    _scrollController.addListener(scrollControllerListener);
+
+    return isInitialLoading
+        ? const Loader()
+        : Container(
+            decoration: const BoxDecoration(
+              color: Colors.white,
+            ),
+            padding: const EdgeInsets.only(left: 8, top: 10),
+            child: recordings.isEmpty
+                ? Center(
+                    child: ShaderMask(
+                      shaderCallback: (Rect bounds) {
+                        return const LinearGradient(
+                          colors: [
+                            Color.fromRGBO(31, 51, 228, 1),
+                            Color.fromRGBO(6, 121, 225, 1),
+                          ],
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                        ).createShader(bounds);
+                      },
+                      child: const Text(
+                        textAlign: TextAlign.center,
+                        'No Recordings',
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.white,
                         ),
-                      )
-                    : const SizedBox.shrink();
-              },
-              loading: () {
-                return indexInPage == 0
-                    ? const Padding(
-                        padding: EdgeInsets.symmetric(vertical: 40),
-                        child: Loader(),
-                      )
-                    : const SizedBox.shrink();
-              },
-            );
-          },
-        ));
+                      ),
+                    ),
+                  )
+                : ListView.separated(
+                    controller: _scrollController,
+                    shrinkWrap: true,
+                    itemCount: recordings.length +
+                        (!hasmore || isFetchingMore ? 1 : 0),
+                    itemBuilder: (context, index) {
+                      if (index <= recordings.length - 1) {
+                        final recording = recordings[index];
+                        return RecordingListTile(recording: recording);
+                      } else if (isFetchingMore) {
+                        return const Column(
+                          children: [
+                            SizedBox(height: 16),
+                            Loader(),
+                            SizedBox(height: 16),
+                          ],
+                        );
+                      } else if (!hasmore) {
+                        return ShaderMask(
+                          shaderCallback: (Rect bounds) {
+                            return const LinearGradient(
+                              colors: [
+                                Color.fromRGBO(31, 51, 228, 1),
+                                Color.fromRGBO(6, 121, 225, 1),
+                              ],
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                            ).createShader(bounds);
+                          },
+                          child: const Column(
+                            children: [
+                              SizedBox(height: 16),
+                              Text(
+                                textAlign: TextAlign.center,
+                                'No More Recordings',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              SizedBox(height: 16),
+                            ],
+                          ),
+                        );
+                      } else {
+                        return const SizedBox();
+                      }
+                    },
+                    separatorBuilder: (BuildContext context, int index) {
+                      return const Divider();
+                    },
+                  ),
+          );
   }
 }
 
@@ -113,7 +176,8 @@ class RecordingListTile extends StatelessWidget {
         ],
       ),
       onTap: () {
-        Navigator.restorablePushNamed(context, RecordTabView.routeName);
+        Navigator.pushNamed(context, RecordTabView.routeName,
+            arguments: recording);
       },
     );
   }

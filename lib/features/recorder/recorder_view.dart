@@ -5,17 +5,21 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fyp2_clean_architecture/core/util.dart';
+import 'package:fyp2_clean_architecture/core/widgets/custom_modal.dart';
+import 'package:fyp2_clean_architecture/features/home/viewmodel/recordings/recodings_viewmodel.dart';
 import 'package:record/record.dart';
 
-class RecorderView extends StatefulWidget {
+class RecorderView extends ConsumerStatefulWidget {
   const RecorderView({super.key});
   static const routeName = '/record_audio';
 
   @override
-  State<RecorderView> createState() => _RecorderViewState();
+  ConsumerState<RecorderView> createState() => _RecorderViewState();
 }
 
-class _RecorderViewState extends State<RecorderView> {
+class _RecorderViewState extends ConsumerState<RecorderView> {
   final double minVolume = -30.0;
   final GlobalKey<AnimatedListState> _recorderwavekey =
       GlobalKey<AnimatedListState>();
@@ -50,7 +54,7 @@ class _RecorderViewState extends State<RecorderView> {
     log('--------------record------------------');
     try {
       if (await _audioRecorder.hasPermission()) {
-        const encoder = AudioEncoder.pcm16bits;
+        const encoder = AudioEncoder.wav;
 
         if (!await _audioRecorder.isEncoderSupported(encoder)) {
           return;
@@ -76,8 +80,8 @@ class _RecorderViewState extends State<RecorderView> {
         });
 
         isRecording = true;
-      }else{
-        throw('no permission');
+      } else {
+        throw ('no permission');
       }
     } catch (e) {
       if (kDebugMode) {
@@ -86,7 +90,7 @@ class _RecorderViewState extends State<RecorderView> {
     }
   }
 
-  Future<void> stop() async {
+  Future<String?> stop() async {
     log('--------------stop------------------');
     final path = await _audioRecorder.stop();
     if (kDebugMode) {
@@ -96,6 +100,7 @@ class _RecorderViewState extends State<RecorderView> {
     _recordSub?.cancel();
     _amplitudeSub?.cancel();
     isRecording = false;
+    return path;
   }
 
   Future<void> pause() async {
@@ -343,8 +348,9 @@ class _RecorderViewState extends State<RecorderView> {
                         borderRadius: BorderRadius.circular(50)),
                     child: IconButton.filledTonal(
                       onPressed: () async {
-                        await stop();
-                        setState(() {});
+                        final path = await stop();
+                        if (!context.mounted) return;
+                        Navigator.of(context).pop(path);
                       },
                       iconSize: 32,
                       style: ButtonStyle(

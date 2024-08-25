@@ -4,7 +4,7 @@ import 'package:dartz/dartz.dart';
 import 'package:fyp2_clean_architecture/core/consts.dart';
 import 'package:fyp2_clean_architecture/core/failures/form_faliure.dart';
 import 'package:fyp2_clean_architecture/core/failures/general_failure.dart';
-import 'package:fyp2_clean_architecture/core/models/user/user_model.dart';
+import 'package:fyp2_clean_architecture/features/auth/model/token_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -16,7 +16,7 @@ AuthRemoteRepository authRemoteRepository(AuthRemoteRepositoryRef ref) {
 }
 
 class AuthRemoteRepository {
-  Future<Either<FormFailure, String>> signup({
+  Future<Either<FormFailure, TokenModel>> signup({
     required String name,
     required String email,
     required String password,
@@ -50,7 +50,7 @@ class AuthRemoteRepository {
       final resBodyMap = jsonDecode(response.body) as Map<String, dynamic>;
 
       if (response.statusCode == 201) {
-        return Right(resBodyMap['token']);
+        return Right(TokenModel(token: resBodyMap['token']));
       } else if (response.statusCode == 400) {
         return Left(
             FormFailure(failure: Left(FormFieldFailure(errors: resBodyMap))));
@@ -66,7 +66,7 @@ class AuthRemoteRepository {
     }
   }
 
-  Future<Either<FormFailure, String>> login({
+  Future<Either<FormFailure, TokenModel>> login({
     required String email,
     required String password,
   }) async {
@@ -96,7 +96,7 @@ class AuthRemoteRepository {
       final resBodyMap = jsonDecode(response.body) as Map<String, dynamic>;
 
       if (response.statusCode == 202) {
-        return Right(resBodyMap['token']);
+        return Right(TokenModel(token: resBodyMap['token']));
       } else if (response.statusCode == 400) {
         return Left(
             FormFailure(failure: Left(FormFieldFailure(errors: resBodyMap))));
@@ -111,37 +111,4 @@ class AuthRemoteRepository {
           FormFailure(failure: Right(GeneralFailure(message: e.toString()))));
     }
   }
-
-  // Future<Either<GeneralFailure, UserModel>> getUserData(
-  //     {required String token}) async {
-  //   try {
-  //     final response = await http.get(
-  //       Uri.parse(
-  //         '$serverURL/user/',
-  //       ),
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //         'Authorization': 'Bearer $token',
-  //       },
-  //     ).timeout(
-  //       const Duration(seconds: 30),
-  //       onTimeout: () {
-  //         throw 'Network Timeout Error';
-  //       },
-  //     );
-
-  //     final resBodyMap = jsonDecode(response.body) as Map<String, dynamic>;
-
-  //     if (response.statusCode == 200) {
-  //       return Right(UserModel.fromJson(resBodyMap).copyWith(token: token));
-  //     } else if (resBodyMap.containsKey('message') &&
-  //         resBodyMap['message'] != null) {
-  //       throw resBodyMap['message']!;
-  //     } else {
-  //       throw 'Something went wrong';
-  //     }
-  //   } catch (e) {
-  //     return Left(GeneralFailure(message: e.toString()));
-  //   }
-  // }
 }

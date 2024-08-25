@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:fyp2_clean_architecture/core/consts.dart';
 import 'package:fyp2_clean_architecture/core/providers/shared_preferences_storage_service_provider.dart';
 import 'package:fyp2_clean_architecture/core/services/local/storage_service.dart';
@@ -12,20 +14,20 @@ UserLocalRepository userLocalRepository(UserLocalRepositoryRef ref) {
 }
 
 class UserLocalRepository {
-  final StorageService storageService;
+  final StorageService _storageService;
 
-  UserLocalRepository(this.storageService);
+  UserLocalRepository(this._storageService);
 
   Future<void> setToken(String token) async {
-    await storageService.set(authTokenStorageKey, token);
+    await _storageService.set(authTokenStorageKey, token);
   }
 
   Future<String?> getToken() async {
-    final token = await storageService.get(authTokenStorageKey);
+    final token = await _storageService.get(authTokenStorageKey);
     return token as String?;
   }
 
   Future<bool> removeToken() async {
-    return await storageService.remove(authTokenStorageKey);
+    return await _storageService.remove(authTokenStorageKey);
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fyp2_clean_architecture/core/consts.dart';
+import 'package:fyp2_clean_architecture/features/home/viewmodel/pdf/pdfs_viewmodel.dart';
 import 'package:fyp2_clean_architecture/state/app_state.dart';
 import 'package:provider/provider.dart';
 
@@ -52,17 +53,16 @@ class PdfFilterContainer extends StatelessWidget {
   }
 }
 
-class SortToogle extends StatelessWidget {
+class SortToogle extends ConsumerWidget {
   const SortToogle({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context) {
-    var appState = context.watch<AppState>();
+  Widget build(BuildContext context, WidgetRef ref) {
     return IconButton(
         onPressed: () {
-          appState.tooglePdfsOrder();
+          ref.read(pdfsViewmodelProvider.notifier).tooglePdfsOrder();
         },
         icon: const Icon(Icons.swap_vert));
   }
@@ -80,7 +80,6 @@ class _SortMenuState extends ConsumerState<SortMenu> {
 
   @override
   Widget build(BuildContext context) {
-    final appState = ref.watch(appStateNotifier);
     return PopupMenuButton<PdfSortMenuItems>(
       icon: const Icon(Icons.sort),
       initialValue: selectedItem,
@@ -88,7 +87,7 @@ class _SortMenuState extends ConsumerState<SortMenu> {
         setState(() {
           selectedItem = item;
         });
-        appState.sortPdfs(selectedItem);
+        ref.read(pdfsViewmodelProvider.notifier).sortPdfs(selectedItem);
       },
       itemBuilder: (BuildContext context) => <PopupMenuEntry<PdfSortMenuItems>>[
         const PopupMenuItem<PdfSortMenuItems>(

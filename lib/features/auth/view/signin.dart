@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fyp2_clean_architecture/core/failures/general_failure.dart';
 import 'package:fyp2_clean_architecture/core/util.dart';
 import 'package:fyp2_clean_architecture/features/auth/view/signup.dart';
 import 'package:fyp2_clean_architecture/features/auth/viewmodel/auth/auth_view_model.dart';
@@ -27,8 +26,7 @@ class SignIn extends ConsumerWidget {
             Navigator.pushReplacementNamed(context, SplashView.routeName);
           },
           error: (error, st) {
-            GeneralFailure generalError = error as GeneralFailure;
-            showSnackBar(context, generalError.message);
+            showSnackBar(context, error as String);
           },
           loading: () {});
     });

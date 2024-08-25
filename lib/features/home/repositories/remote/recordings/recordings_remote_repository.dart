@@ -9,14 +9,15 @@ import 'package:http_parser/http_parser.dart';
 import 'package:mime/mime.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'home_remote_repository.g.dart';
+part 'recordings_remote_repository.g.dart';
 
 @riverpod
-HomeRemoteRepository homeRemoteRepository(HomeRemoteRepositoryRef ref) {
-  return HomeRemoteRepository();
+RecordingsRemoteRepository recordingsRemoteRepository(
+    RecordingsRemoteRepositoryRef ref) {
+  return RecordingsRemoteRepository();
 }
 
-class HomeRemoteRepository {
+class RecordingsRemoteRepository {
   Future<Either<GeneralFailure, RecordingListItemModel>> uploadRecording({
     required File selectedAudio,
     required String audioName,
@@ -70,7 +71,8 @@ class HomeRemoteRepository {
     required int page,
   }) async {
     try {
-      final response = await http.get(Uri.parse('$serverURL/audio/$page'), headers: {
+      final response =
+          await http.get(Uri.parse('$serverURL/audio/$page'), headers: {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer $token',
       });

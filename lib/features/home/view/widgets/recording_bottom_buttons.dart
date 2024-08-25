@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:device_info/device_info.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fyp2_clean_architecture/core/util.dart';
-import 'package:fyp2_clean_architecture/features/home/viewmodel/home_viewmodel.dart';
+import 'package:fyp2_clean_architecture/core/widgets/custom_modal.dart';
+import 'package:fyp2_clean_architecture/features/home/viewmodel/recordings/recodings_viewmodel.dart';
 import 'package:fyp2_clean_architecture/features/recorder/recorder_view.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -81,7 +84,30 @@ class RecordingBottomButtons extends ConsumerWidget {
               }
             }
 
-            Navigator.restorablePushNamed(context, RecorderView.routeName);
+            String? path =
+                await Navigator.pushNamed(context, RecorderView.routeName)
+                    as String?;
+
+            if (path != null) {
+              var selectedAudio = File(path);
+              if (!context.mounted) return;
+              String? name = await showModalBottomSheet<String?>(
+                context: context,
+                isScrollControlled: true,
+                backgroundColor: const Color.fromRGBO(246, 249, 252, 1),
+                builder: (BuildContext context) {
+                  return CustomModal();
+                },
+              );
+              ref.read(recodingsViewmodelProvider.notifier).uploadRecording(
+                    selectedAudio: selectedAudio,
+                    audioName: name ?? '',
+                  );
+            } else {
+              // if (!context.mounted) return;
+              // showCustomSnackBar(context, 'File path not found');
+              // return;
+            }
           },
           iconSize: 45,
           style: ButtonStyle(
@@ -149,9 +175,21 @@ class RecordingBottomButtons extends ConsumerWidget {
 
             var selectedAudio = await pickAudio();
             if (selectedAudio != null) {
-              ref.read(homeViewModelProvider.notifier).uploadRecording(
+              if (!context.mounted) return;
+              String? name = await showModalBottomSheet<String?>(
+                context: context,
+                isScrollControlled: true,
+                // constraints: BoxConstraints(
+                //     maxHeight: MediaQuery.of(context).size.height / 3,
+                //     maxWidth: MediaQuery.of(context).size.width - 100),
+                backgroundColor: const Color.fromRGBO(246, 249, 252, 1),
+                builder: (BuildContext context) {
+                  return CustomModal();
+                },
+              );
+              ref.read(recodingsViewmodelProvider.notifier).uploadRecording(
                     selectedAudio: selectedAudio,
-                    audioName: 'My Song',
+                    audioName: name ?? '',
                   );
             }
           },

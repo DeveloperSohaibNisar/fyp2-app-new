@@ -1,26 +1,27 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'home_viewmodel.dart';
+part of 'pdfs_remote_repository.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$homeViewModelHash() => r'04546993b33b35b7512d65963a6c9870ae9bd059';
+String _$pdfsRemoteRepositoryHash() =>
+    r'ae7d8ffd58df82d996b049442e33d4f4aea4f39b';
 
-/// See also [HomeViewModel].
-@ProviderFor(HomeViewModel)
-final homeViewModelProvider =
-    AutoDisposeNotifierProvider<HomeViewModel, AsyncValue?>.internal(
-  HomeViewModel.new,
-  name: r'homeViewModelProvider',
+/// See also [pdfsRemoteRepository].
+@ProviderFor(pdfsRemoteRepository)
+final pdfsRemoteRepositoryProvider =
+    AutoDisposeProvider<PdfsRemoteRepository>.internal(
+  pdfsRemoteRepository,
+  name: r'pdfsRemoteRepositoryProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$homeViewModelHash,
+      : _$pdfsRemoteRepositoryHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$HomeViewModel = AutoDisposeNotifier<AsyncValue?>;
+typedef PdfsRemoteRepositoryRef = AutoDisposeProviderRef<PdfsRemoteRepository>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

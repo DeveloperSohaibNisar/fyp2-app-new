@@ -1,4 +1,4 @@
-import 'package:fyp2_clean_architecture/core/failures/general_failure.dart';
+import 'package:fyp2_clean_architecture/core/failures/token_failure.dart';
 import 'package:fyp2_clean_architecture/core/models/user/user_model.dart';
 import 'package:fyp2_clean_architecture/core/repositories/local/user_local_repository.dart';
 import 'package:fyp2_clean_architecture/core/repositories/remote/user_remote_repository.dart';
@@ -7,61 +7,39 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'current_user.g.dart';
 
 @Riverpod(keepAlive: true)
-Future<UserModel?> getUser(GetUserRef ref) async {
-  final token = await ref.watch(userLocalRepositoryProvider).getToken();
-  if (token != null) {
-    final res =
-        await ref.watch(userRemoteRepositoryProvider).getUserData(token: token);
-
-    return res.fold(
-        (generalError) => throw generalError.message, (user) => user);
-  }
-  return null;
-}
-
-@Riverpod(keepAlive: true)
 class CurrentUser extends _$CurrentUser {
   late UserLocalRepository _userLocalRepository;
-  late UserRemoteRepository _userRemoteRepository;
 
   @override
-  AsyncValue<UserModel> build() {
+  Future<UserModel> build() async {
     _userLocalRepository = ref.watch(userLocalRepositoryProvider);
-    _userRemoteRepository = ref.watch(userRemoteRepositoryProvider);
-    final asyncData = ref.watch(getUserProvider);
 
-    // return asyncData.when(
-    //   data: (data) => data,
-    //   error: (error, stackTrace) => 0, // Handle errors
-    //   loading: () => 0, //
-    return const AsyncValue.loading();
+    state = const AsyncValue.loading();
+    final token = await ref.watch(userLocalRepositoryProvider).getToken();
+
+    // await Future.delayed(const Duration(seconds: 5), () {});
+
+    if (token != null) {
+      final res = await ref
+          .watch(userRemoteRepositoryProvider)
+          .getUserData(token: token);
+
+      return res.fold(
+          (generalError) => throw generalError.message, (user) => user);
+    } else {
+      throw TokenFailure(
+          message: 'Something went wrong authentication token not found');
+    }
   }
-
-  // Future<void> getUser() async {
-  //   state = const AsyncValue.loading();
-  //   final token = await _userLocalRepository.getToken();
-
-  //   if (token != null) {
-  //     final res = await _userRemoteRepository.getUserData(token: token);
-
-  //     res.fold(
-  //         (generalError) => state =
-  //             AsyncValue.error(generalError, StackTrace.current), (user) async {
-  //       state = AsyncValue.data(user.copyWith(token: token));
-  //     });
-  //   } else {
-  //     state = null;
-  //   }
-  // }
 
   Future<void> logout() async {
     state = const AsyncValue.loading();
+    // await Future.delayed(const Duration(seconds: 5), () {});
     bool tokenRemoved = await _userLocalRepository.removeToken();
     if (tokenRemoved) {
-      state = null;
+      ref.invalidateSelf();
     } else {
-      AsyncValue.error(
-          GeneralFailure(message: 'unable to logout'), StackTrace.current);
+      AsyncValue.error('Unable to logout', StackTrace.current);
     }
   }
 }

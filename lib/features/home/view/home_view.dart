@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fyp2_clean_architecture/core/failures/general_failure.dart';
 import 'package:fyp2_clean_architecture/core/providers/user/current_user.dart';
-import 'package:fyp2_clean_architecture/core/util.dart';
-import 'package:fyp2_clean_architecture/features/auth/view/welcome.dart';
+import 'package:fyp2_clean_architecture/core/widgets/notes_screen.dart';
+import 'package:fyp2_clean_architecture/features/splash/view/splash_view.dart';
 // import '../../settings/settings_view.dart';
 import 'tabpages/notes/note_view.dart';
 import 'tabpages/pdf/pdf_view.dart';
@@ -50,16 +49,8 @@ class _HomeViewState extends ConsumerState<HomeView> {
 
   @override
   Widget build(BuildContext context) {
-    ref.listen(currentUserProvider, (prev, next) {
-      next?.when(
-          data: (data) {},
-          error: (error, st) {
-            GeneralFailure generalError = error as GeneralFailure;
-            showSnackBar(context, generalError.message);
-          },
-          loading: () {});
-    });
-
+    final profilePictureUrl =
+        ref.watch(currentUserProvider).value!.profilePictureUrl;
     return DefaultTabController(
       length: 3,
       child: Scaffold(
@@ -67,10 +58,12 @@ class _HomeViewState extends ConsumerState<HomeView> {
         appBar: AppBar(
           centerTitle: true,
           toolbarHeight: 50,
-          leading: const Padding(
-            padding: EdgeInsets.only(left: 24, top: 10),
+          backgroundColor: Colors.white,
+          leading: Padding(
+            padding: const EdgeInsets.only(left: 24, top: 10),
             child: CircleAvatar(
-              foregroundImage: AssetImage('assets/images/profile_picture.png'),
+              foregroundImage: NetworkImage(
+                  profilePictureUrl.replaceAll('localhost', '10.0.2.2')),
             ),
           ),
           title: Padding(
@@ -137,12 +130,12 @@ class _HomeViewState extends ConsumerState<HomeView> {
               child: IconButton(
                 // icon: const Icon(Icons.settings),
                 icon: const Icon(Icons.exit_to_app),
-                onPressed: () {
+                onPressed: () async {
                   // Navigate to the settings page. If the user leaves and returns
                   // to the app after it has been killed while running in the
                   // background, the navigation stack is restored.
                   ref.read(currentUserProvider.notifier).logout();
-                  Navigator.pushReplacementNamed(context, Welcome.routeName);
+                  Navigator.pushReplacementNamed(context, SplashView.routeName);
                 },
               ),
             ),
@@ -151,7 +144,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
         bottomNavigationBar: BottomSheet(
           constraints:
               BoxConstraints(minWidth: MediaQuery.of(context).size.width),
-          backgroundColor: Colors.transparent,
+          backgroundColor: Colors.white,
           elevation: 0,
           enableDrag: false,
           onClosing: () {},
@@ -190,7 +183,8 @@ class _HomeViewState extends ConsumerState<HomeView> {
           children: [
             RecordingView(),
             PdfView(),
-            NoteView(),
+            // NoteView(),
+            Notes(),
           ],
         ),
       ),

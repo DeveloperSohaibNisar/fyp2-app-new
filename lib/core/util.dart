@@ -15,6 +15,19 @@ void showSnackBar(BuildContext context, String content) {
         ));
 }
 
+void showCustomSnackBar(BuildContext context, String content) {
+  SchedulerBinding.instance
+      .addPostFrameCallback((_) => ScaffoldMessenger.of(context)
+        ..hideCurrentSnackBar()
+        ..showSnackBar(
+          SnackBar(
+            behavior: SnackBarBehavior.floating,
+            // margin: const EdgeInsets.only(bottom: -40),
+            content: Text(content),
+          ),
+        ));
+}
+
 Future<File?> pickAudio() async {
   try {
     final filePickerRes = await FilePicker.platform.pickFiles(

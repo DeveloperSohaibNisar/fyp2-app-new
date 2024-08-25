@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fyp2_clean_architecture/core/consts.dart';
-import 'package:fyp2_clean_architecture/state/app_state.dart';
+import 'package:fyp2_clean_architecture/features/home/viewmodel/recordings/recodings_viewmodel.dart';
 
 class RecordingFilterContainer extends StatelessWidget {
   const RecordingFilterContainer({super.key});
@@ -56,11 +56,9 @@ class SortToogle extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final appState = ref.watch(appStateNotifier);
-
     return IconButton(
         onPressed: () {
-          appState.toogleRecordingsOrder();
+          ref.read(recodingsViewmodelProvider.notifier).toogleRecordingsOrder();
         },
         icon: const Icon(Icons.swap_vert));
   }
@@ -78,7 +76,6 @@ class _SortMenuState extends ConsumerState<SortMenu> {
 
   @override
   Widget build(BuildContext context) {
-    final appState = ref.watch(appStateNotifier);
     return PopupMenuButton<RecordingSortMenuItems>(
       icon: const Icon(Icons.sort),
       initialValue: selectedItem,
@@ -86,7 +83,9 @@ class _SortMenuState extends ConsumerState<SortMenu> {
         setState(() {
           selectedItem = item;
         });
-        appState.sortRecodings(selectedItem);
+        ref
+            .read(recodingsViewmodelProvider.notifier)
+            .sortRecodings(selectedItem);
       },
       itemBuilder: (BuildContext context) =>
           <PopupMenuEntry<RecordingSortMenuItems>>[

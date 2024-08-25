@@ -33,6 +33,8 @@ class AuthViewModel extends _$AuthViewModel {
     required String confirmPassword,
   }) async {
     state = const AsyncValue.loading();
+    _loginFormErrorViewNotifier.unsetErrors();
+    
     final res = await _authRemoteRepository.signup(
       name: name,
       email: email,
@@ -45,12 +47,12 @@ class AuthViewModel extends _$AuthViewModel {
         _signupFormErrorViewNotifier.setErrors(fieldErrors);
         state = null;
       }, (generalError) {
-        state = AsyncValue.error(generalError, StackTrace.current);
+        state = AsyncValue.error(generalError.message, StackTrace.current);
       });
     }, (token) async {
-      await _userLocalRepository.setToken(token);
-      ref.read(currentUserProvider.notifier).getUser();
-      state = AsyncValue.data(TokenModel(token: token));
+      await _userLocalRepository.setToken(token.token);
+      ref.invalidate(currentUserProvider);
+      state = AsyncValue.data(TokenModel(token: token.token));
     });
   }
 
@@ -59,6 +61,8 @@ class AuthViewModel extends _$AuthViewModel {
     required String password,
   }) async {
     state = const AsyncValue.loading();
+    _loginFormErrorViewNotifier.unsetErrors();
+
     final res = await _authRemoteRepository.login(
       email: email,
       password: password,
@@ -69,30 +73,12 @@ class AuthViewModel extends _$AuthViewModel {
         _loginFormErrorViewNotifier.setErrors(fieldErrors);
         state = null;
       }, (generalError) {
-        state = AsyncValue.error(generalError, StackTrace.current);
+        state = AsyncValue.error(generalError.message, StackTrace.current);
       });
     }, (token) async {
-      await _userLocalRepository.setToken(token);
-      ref.read(currentUserProvider.notifier).getUser();
-      state = AsyncValue.data(TokenModel(token: token));
+      await _userLocalRepository.setToken(token.token);
+      ref.invalidate(currentUserProvider);
+      state = AsyncValue.data(TokenModel(token: token.token));
     });
   }
-
-  // Future<void> getUser() async {
-  //   state = const AsyncValue.loading();
-  //   final token = await _userLocalRepository.getToken();
-
-  //   if (token != null) {
-  //     final res = await _authRemoteRepository.getUserData(token: token);
-
-  //     res.fold(
-  //         (generalError) => state = AsyncValue.error(generalError, StackTrace.current),
-  //         (user) async {
-  //       _currentUserNotifier.addUser(user.copyWith(token: token));
-  //     });
-  //   } else {
-  //     state = AsyncValue.error(
-  //         GeneralFailure(message: 'authentication failed'), StackTrace.current);
-  //   }
-  // }
 }

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fyp2_clean_architecture/core/failures/general_failure.dart';
 import 'package:fyp2_clean_architecture/core/util.dart';
 import 'package:fyp2_clean_architecture/features/auth/view/signin.dart';
 import 'package:fyp2_clean_architecture/features/auth/viewmodel/auth/auth_view_model.dart';
 import 'package:fyp2_clean_architecture/features/auth/viewmodel/form_error/signup/signup_form_error_view_notifier.dart';
+import 'package:fyp2_clean_architecture/features/splash/view/splash_view.dart';
 
 class Signup extends ConsumerStatefulWidget {
   static const routeName = '/Signup';
@@ -35,11 +35,10 @@ class _SignupState extends ConsumerState<Signup> {
     ref.listen(authViewModelProvider, (prev, next) {
       next?.when(
           data: (data) {
-            // Navigator.popUntil(context, ModalRoute.withName('/'));
+            Navigator.pushReplacementNamed(context, SplashView.routeName);
           },
           error: (error, st) {
-            GeneralFailure generalError = error as GeneralFailure;
-            showSnackBar(context, generalError.message);
+            showSnackBar(context, error as String);
           },
           loading: () {});
     });
