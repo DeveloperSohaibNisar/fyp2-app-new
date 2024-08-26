@@ -1,9 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fyp2_clean_architecture/features/home/model/recording_list_item/recording_list_item_model.dart';
-import 'package:fyp2_clean_architecture/features/recording_summary/transcription/seekbar.dart';
-import 'package:fyp2_clean_architecture/models/transcription.dart';
-import 'package:fyp2_clean_architecture/models/transcription_item.dart';
+import 'package:fyp2_clean_architecture/features/home/view/pages/recording_summary/tabpages/transcription/seekbar.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:audio_session/audio_session.dart';

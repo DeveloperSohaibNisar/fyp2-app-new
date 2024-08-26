@@ -19,7 +19,7 @@ _$RecordingListItemModelImpl _$$RecordingListItemModelImplFromJson(
       isSummaryCreated: json['isSummaryCreated'] as bool,
       transcriptionData: TranscriptionData.fromJson(
           json['transcriptionData'] as Map<String, dynamic>),
-      summaryText: json['summaryText'] as String?,
+      summaryText: json['summaryText'] as String,
     );
 
 Map<String, dynamic> _$$RecordingListItemModelImplToJson(

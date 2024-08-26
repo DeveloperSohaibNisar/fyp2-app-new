@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-class Summary extends StatelessWidget {
+class SummaryContainer extends StatelessWidget {
   final String summarytext;
-  const Summary({super.key, required this.summarytext});
+  const SummaryContainer({super.key, required this.summarytext});
   @override
   Widget build(BuildContext context) {
     return Container(

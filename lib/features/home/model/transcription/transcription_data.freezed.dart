@@ -20,7 +20,7 @@ TranscriptionData _$TranscriptionDataFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$TranscriptionData {
-  String? get text => throw _privateConstructorUsedError;
+  String get text => throw _privateConstructorUsedError;
   List<TranscriptionChunk> get chunks => throw _privateConstructorUsedError;
 
   /// Serializes this TranscriptionData to a JSON map.
@@ -39,7 +39,7 @@ abstract class $TranscriptionDataCopyWith<$Res> {
           TranscriptionData value, $Res Function(TranscriptionData) then) =
       _$TranscriptionDataCopyWithImpl<$Res, TranscriptionData>;
   @useResult
-  $Res call({String? text, List<TranscriptionChunk> chunks});
+  $Res call({String text, List<TranscriptionChunk> chunks});
 }
 
 /// @nodoc
@@ -57,14 +57,14 @@ class _$TranscriptionDataCopyWithImpl<$Res, $Val extends TranscriptionData>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? text = freezed,
+    Object? text = null,
     Object? chunks = null,
   }) {
     return _then(_value.copyWith(
-      text: freezed == text
+      text: null == text
           ? _value.text
           : text // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
       chunks: null == chunks
           ? _value.chunks
           : chunks // ignore: cast_nullable_to_non_nullable
@@ -81,7 +81,7 @@ abstract class _$$TranscriptionDataImplCopyWith<$Res>
       __$$TranscriptionDataImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String? text, List<TranscriptionChunk> chunks});
+  $Res call({String text, List<TranscriptionChunk> chunks});
 }
 
 /// @nodoc
@@ -97,14 +97,14 @@ class __$$TranscriptionDataImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? text = freezed,
+    Object? text = null,
     Object? chunks = null,
   }) {
     return _then(_$TranscriptionDataImpl(
-      text: freezed == text
+      text: null == text
           ? _value.text
           : text // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
       chunks: null == chunks
           ? _value._chunks
           : chunks // ignore: cast_nullable_to_non_nullable
@@ -124,7 +124,7 @@ class _$TranscriptionDataImpl implements _TranscriptionData {
       _$$TranscriptionDataImplFromJson(json);
 
   @override
-  final String? text;
+  final String text;
   final List<TranscriptionChunk> _chunks;
   @override
   List<TranscriptionChunk> get chunks {
@@ -171,7 +171,7 @@ class _$TranscriptionDataImpl implements _TranscriptionData {
 
 abstract class _TranscriptionData implements TranscriptionData {
   const factory _TranscriptionData(
-          {required final String? text,
+          {required final String text,
           required final List<TranscriptionChunk> chunks}) =
       _$TranscriptionDataImpl;
 
@@ -179,7 +179,7 @@ abstract class _TranscriptionData implements TranscriptionData {
       _$TranscriptionDataImpl.fromJson;
 
   @override
-  String? get text;
+  String get text;
   @override
   List<TranscriptionChunk> get chunks;
 

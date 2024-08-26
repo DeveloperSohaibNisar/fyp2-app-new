@@ -32,7 +32,7 @@ mixin _$RecordingListItemModel {
   bool get isVectorDatabaseCreated => throw _privateConstructorUsedError;
   bool get isSummaryCreated => throw _privateConstructorUsedError;
   TranscriptionData get transcriptionData => throw _privateConstructorUsedError;
-  String? get summaryText => throw _privateConstructorUsedError;
+  String get summaryText => throw _privateConstructorUsedError;
 
   /// Serializes this RecordingListItemModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -60,7 +60,7 @@ abstract class $RecordingListItemModelCopyWith<$Res> {
       bool isVectorDatabaseCreated,
       bool isSummaryCreated,
       TranscriptionData transcriptionData,
-      String? summaryText});
+      String summaryText});
 
   $TranscriptionDataCopyWith<$Res> get transcriptionData;
 }
@@ -90,7 +90,7 @@ class _$RecordingListItemModelCopyWithImpl<$Res,
     Object? isVectorDatabaseCreated = null,
     Object? isSummaryCreated = null,
     Object? transcriptionData = null,
-    Object? summaryText = freezed,
+    Object? summaryText = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -129,10 +129,10 @@ class _$RecordingListItemModelCopyWithImpl<$Res,
           ? _value.transcriptionData
           : transcriptionData // ignore: cast_nullable_to_non_nullable
               as TranscriptionData,
-      summaryText: freezed == summaryText
+      summaryText: null == summaryText
           ? _value.summaryText
           : summaryText // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
     ) as $Val);
   }
 
@@ -166,7 +166,7 @@ abstract class _$$RecordingListItemModelImplCopyWith<$Res>
       bool isVectorDatabaseCreated,
       bool isSummaryCreated,
       TranscriptionData transcriptionData,
-      String? summaryText});
+      String summaryText});
 
   @override
   $TranscriptionDataCopyWith<$Res> get transcriptionData;
@@ -196,7 +196,7 @@ class __$$RecordingListItemModelImplCopyWithImpl<$Res>
     Object? isVectorDatabaseCreated = null,
     Object? isSummaryCreated = null,
     Object? transcriptionData = null,
-    Object? summaryText = freezed,
+    Object? summaryText = null,
   }) {
     return _then(_$RecordingListItemModelImpl(
       id: null == id
@@ -235,10 +235,10 @@ class __$$RecordingListItemModelImplCopyWithImpl<$Res>
           ? _value.transcriptionData
           : transcriptionData // ignore: cast_nullable_to_non_nullable
               as TranscriptionData,
-      summaryText: freezed == summaryText
+      summaryText: null == summaryText
           ? _value.summaryText
           : summaryText // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
     ));
   }
 }
@@ -282,7 +282,7 @@ class _$RecordingListItemModelImpl implements _RecordingListItemModel {
   @override
   final TranscriptionData transcriptionData;
   @override
-  final String? summaryText;
+  final String summaryText;
 
   @override
   String toString() {
@@ -358,7 +358,7 @@ abstract class _RecordingListItemModel implements RecordingListItemModel {
       required final bool isVectorDatabaseCreated,
       required final bool isSummaryCreated,
       required final TranscriptionData transcriptionData,
-      required final String? summaryText}) = _$RecordingListItemModelImpl;
+      required final String summaryText}) = _$RecordingListItemModelImpl;
 
   factory _RecordingListItemModel.fromJson(Map<String, dynamic> json) =
       _$RecordingListItemModelImpl.fromJson;
@@ -384,7 +384,7 @@ abstract class _RecordingListItemModel implements RecordingListItemModel {
   @override
   TranscriptionData get transcriptionData;
   @override
-  String? get summaryText;
+  String get summaryText;
 
   /// Create a copy of RecordingListItemModel
   /// with the given fields replaced by the non-null parameter values.

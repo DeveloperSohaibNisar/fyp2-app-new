@@ -9,7 +9,7 @@ part of 'transcription_data.dart';
 _$TranscriptionDataImpl _$$TranscriptionDataImplFromJson(
         Map<String, dynamic> json) =>
     _$TranscriptionDataImpl(
-      text: json['text'] as String?,
+      text: json['text'] as String,
       chunks: (json['chunks'] as List<dynamic>)
           .map((e) => TranscriptionChunk.fromJson(e as Map<String, dynamic>))
           .toList(),

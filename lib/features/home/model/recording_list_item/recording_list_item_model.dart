@@ -17,7 +17,7 @@ class RecordingListItemModel with _$RecordingListItemModel {
     required bool isVectorDatabaseCreated,
     required bool isSummaryCreated,
     required TranscriptionData transcriptionData,
-    required String? summaryText,
+    required String summaryText,
   }) = _RecordingListItemModel;
 
   factory RecordingListItemModel.fromJson(Map<String, Object?> json) =>

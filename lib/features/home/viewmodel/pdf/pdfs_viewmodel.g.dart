@@ -6,7 +6,7 @@ part of 'pdfs_viewmodel.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$pdfsViewmodelHash() => r'09f2ac0e094ce1e9005c6e9aa08d1486f58e2b83';
+String _$pdfsViewmodelHash() => r'709ed5471cde0e84c74fa5b6185fbfd61666aefd';
 
 /// See also [PdfsViewmodel].
 @ProviderFor(PdfsViewmodel)

@@ -20,9 +20,28 @@ class RecordingView extends ConsumerWidget {
           loading: () {});
     });
 
-    return const Column(
-      // mainAxisAlignment: MainAxisAlignment.end,
-      children: [RecordingFilterContainer(), Flexible(child: RecordingList())],
+    final uploadingRecording =
+        ref.watch(recodingsViewmodelProvider.notifier).uploadingRecording;
+
+    return Stack(
+      children: [
+        const Column(
+          // mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            RecordingFilterContainer(),
+            Flexible(child: RecordingList())
+          ],
+        ),
+        if (uploadingRecording)
+          const Opacity(
+            opacity: 0.8,
+            child: ModalBarrier(dismissible: false, color: Colors.black),
+          ),
+        if (uploadingRecording)
+          const Center(
+            child: CircularProgressIndicator(),
+          ),
+      ],
     );
   }
 }

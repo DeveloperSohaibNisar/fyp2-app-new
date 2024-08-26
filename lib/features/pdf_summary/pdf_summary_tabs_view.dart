@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fyp2_clean_architecture/core/widgets/summary.dart';
+import 'package:fyp2_clean_architecture/core/widgets/summary_container.dart';
 import 'package:fyp2_clean_architecture/features/pdf_summary/chat_view.dart';
 import 'package:fyp2_clean_architecture/features/pdf_summary/transcribtion_view.dart';
 
@@ -88,7 +88,7 @@ class PdfTabsView extends StatelessWidget {
           children: [
             Padding(
               padding: EdgeInsets.all(10.0),
-              child: Summary(
+              child: SummaryContainer(
                 summarytext: 'dummy',
               ),
             ),

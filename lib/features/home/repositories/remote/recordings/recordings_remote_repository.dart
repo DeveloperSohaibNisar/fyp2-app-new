@@ -65,6 +65,31 @@ class RecordingsRemoteRepository {
     }
   }
 
+  // Future<Either<GeneralFailure, RecordingListItemModel>> createTranscription({
+  //   required String audioId,
+  //   required String token,
+  // }) async {
+  //   try {
+  //     final response = await http
+  //         .post(Uri.parse('$serverURL/audio/transcription/$audioId'), headers: {
+  //       'Authorization': 'Bearer $token',
+  //     });
+
+  //     var resBodyMap = jsonDecode(response.body) as Map<String, dynamic>;
+
+  //     if (response.statusCode == 200) {
+  //       return Right(RecordingListItemModel.fromJson(resBodyMap));
+  //     } else if (resBodyMap.containsKey('message') &&
+  //         resBodyMap['message'] != null) {
+  //       throw resBodyMap['message']!;
+  //     } else {
+  //       throw 'Something went wrong';
+  //     }
+  //   } catch (e) {
+  //     return Left(GeneralFailure(message: e.toString()));
+  //   }
+  // }
+
   Future<Either<GeneralFailure, List<RecordingListItemModel>>>
       getPaginatedRecordings({
     required String token,

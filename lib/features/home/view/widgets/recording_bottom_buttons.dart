@@ -6,7 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fyp2_clean_architecture/core/util.dart';
 import 'package:fyp2_clean_architecture/core/widgets/custom_modal.dart';
 import 'package:fyp2_clean_architecture/features/home/viewmodel/recordings/recodings_viewmodel.dart';
-import 'package:fyp2_clean_architecture/features/recorder/recorder_view.dart';
+import 'package:fyp2_clean_architecture/features/home/view/pages/recorder/recorder_view.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class RecordingBottomButtons extends ConsumerWidget {
@@ -187,6 +187,7 @@ class RecordingBottomButtons extends ConsumerWidget {
                   return CustomModal();
                 },
               );
+
               ref.read(recodingsViewmodelProvider.notifier).uploadRecording(
                     selectedAudio: selectedAudio,
                     audioName: name ?? '',

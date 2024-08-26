@@ -7,7 +7,7 @@ part 'transcription_data.g.dart';
 @freezed
 class TranscriptionData with _$TranscriptionData {
   const factory TranscriptionData({
-    required String ? text,
+    required String text,
     required List<TranscriptionChunk> chunks,
   }) = _TranscriptionData;
 

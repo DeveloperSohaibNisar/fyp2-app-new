@@ -6,8 +6,8 @@ import 'package:fyp2_clean_architecture/features/home/model/recording_list_item/
 import 'package:fyp2_clean_architecture/features/home/view/home_view.dart';
 import 'package:fyp2_clean_architecture/features/illegal_argument/view/illegal_argument_view.dart';
 import 'package:fyp2_clean_architecture/features/pdf_summary/pdf_summary_tabs_view.dart';
-import 'package:fyp2_clean_architecture/features/recorder/recorder_view.dart';
-import 'package:fyp2_clean_architecture/features/recording_summary/recording_summary_tabs_view.dart';
+import 'package:fyp2_clean_architecture/features/home/view/pages/recorder/recorder_view.dart';
+import 'package:fyp2_clean_architecture/features/home/view/pages/recording_summary/recording_summary_tabs_view.dart';
 import 'package:fyp2_clean_architecture/features/settings/settings_view.dart';
 import 'package:fyp2_clean_architecture/features/splash/view/splash_view.dart';
 

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/widgets.dart';
 import 'package:fyp2_clean_architecture/core/consts.dart';
 import 'package:fyp2_clean_architecture/core/providers/user/current_user.dart';
 import 'package:fyp2_clean_architecture/features/home/model/recording_list_item/recording_list_item_model.dart';
@@ -13,10 +14,14 @@ class RecodingsViewmodel extends _$RecodingsViewmodel {
   late RecordingsRemoteRepository _recordingsRepository;
   late String _token;
   bool _hasMore = true;
+  bool _uploadingRecording = false;
   int _page = 0;
+  Object? key; // 1. create a key
 
   @override
   FutureOr<List<RecordingListItemModel>> build() async {
+    key = Object(); // 2. initialize key
+    ref.onDispose(() => key = null); // 3. set key to null on dispose
     _recordingsRepository = ref.watch(recordingsRemoteRepositoryProvider);
     _token =
         ref.watch(currentUserProvider.select((user) => user.value!.token!));
@@ -28,6 +33,7 @@ class RecodingsViewmodel extends _$RecodingsViewmodel {
   }
 
   bool get hasMore => _hasMore;
+  bool get uploadingRecording => _uploadingRecording;
 
   Future<void> fetchmore() async {
     if (state.isLoading || !_hasMore) return;
@@ -57,19 +63,27 @@ class RecodingsViewmodel extends _$RecodingsViewmodel {
     });
   }
 
+  void addRecording(RecordingListItemModel data) {
+    state = AsyncValue.data([data, ...?state.value]);
+  }
+
   Future<void> uploadRecording({
     required File selectedAudio,
     required String audioName,
   }) async {
-    state = const AsyncValue.loading();
+    final link = ref.keepAlive();
+    _uploadingRecording = true;
     final res = await _recordingsRepository.uploadRecording(
         selectedAudio: selectedAudio, audioName: audioName, token: _token);
 
     res.fold(
         (generalError) => state =
             AsyncValue.error(generalError.message, StackTrace.current), (data) {
+      _uploadingRecording = false;
       state = AsyncValue.data([data, ...?state.value]);
     });
+    _uploadingRecording = false;
+    link.close();
   }
 
   void sortRecodings(RecordingSortMenuItems? selectedItem) {
