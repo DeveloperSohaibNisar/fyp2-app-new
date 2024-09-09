@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:fyp2_clean_architecture/core/consts.dart';
 import 'package:fyp2_clean_architecture/core/providers/shared_preferences_storage_service_provider.dart';
 import 'package:fyp2_clean_architecture/core/services/local/storage_service.dart';

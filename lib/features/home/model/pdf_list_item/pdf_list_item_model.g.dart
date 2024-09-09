@@ -11,12 +11,11 @@ _$PdfListItemModelImpl _$$PdfListItemModelImplFromJson(
     _$PdfListItemModelImpl(
       id: json['_id'] as String,
       name: json['name'] as String,
-      uploadDate: DateTime.parse(json['uploadDate'] as String),
-      numpages: json['numpages'] as String,
+      createdAt: DateTime.parse(json['createdAt'] as String),
+      numpages: (json['numpages'] as num).toInt(),
       pdfUrl: json['pdfUrl'] as String,
-      isVectorDatabaseCreated: json['isVectorDatabaseCreated'] as bool,
-      isSummaryCreated: json['isSummaryCreated'] as bool,
-      summaryText: json['summaryText'] as String?,
+      summaryData:
+          SummaryData.fromJson(json['summaryData'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$PdfListItemModelImplToJson(
@@ -24,10 +23,8 @@ Map<String, dynamic> _$$PdfListItemModelImplToJson(
     <String, dynamic>{
       '_id': instance.id,
       'name': instance.name,
-      'uploadDate': instance.uploadDate.toIso8601String(),
+      'createdAt': instance.createdAt.toIso8601String(),
       'numpages': instance.numpages,
       'pdfUrl': instance.pdfUrl,
-      'isVectorDatabaseCreated': instance.isVectorDatabaseCreated,
-      'isSummaryCreated': instance.isSummaryCreated,
-      'summaryText': instance.summaryText,
+      'summaryData': instance.summaryData,
     };

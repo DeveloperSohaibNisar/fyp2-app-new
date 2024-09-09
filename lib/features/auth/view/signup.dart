@@ -43,10 +43,8 @@ class _SignupState extends ConsumerState<Signup> {
           loading: () {});
     });
 
-    Map<String, dynamic>? formFieldErrors =
-        ref.watch(signupFormErrorViewNotifierProvider)?.errors;
-    final isLoading = ref
-        .watch(authViewModelProvider.select((val) => val?.isLoading == true));
+    Map<String, dynamic>? formFieldErrors = ref.watch(signupFormErrorViewNotifierProvider)?.errors;
+    final isLoading = ref.watch(authViewModelProvider.select((val) => val?.isLoading == true));
 
     return Scaffold(
       appBar: AppBar(
@@ -114,31 +112,38 @@ class _SignupState extends ConsumerState<Signup> {
                           ),
                         ),
                       ),
-                      TextField(
-                        controller: usernameController,
-                        decoration: InputDecoration(
-                            hintStyle: const TextStyle(
-                              color: Color(0xFF848488),
-                              fontSize: 14,
-                              fontFamily: 'Inria Sans',
-                              fontWeight: FontWeight.w400,
-                              height: 0,
-                            ),
-                            helperStyle: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 14,
-                              fontFamily: 'Inria Sans',
-                              fontWeight: FontWeight.w400,
-                              height: 0,
-                            ),
-                            hintText: "Username",
-                            helperText: formFieldErrors?['name'] ?? '',
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(50),
-                                borderSide: BorderSide.none),
-                            fillColor: Colors.white,
-                            filled: true,
-                            prefixIcon: const Icon(Icons.person)),
+                      Theme(
+                        data: Theme.of(context).copyWith(
+                          textSelectionTheme: const TextSelectionThemeData(
+                            cursorColor: Color(0xFFFE600C),
+                            selectionColor: Color(0xFFFE600C),
+                            selectionHandleColor: Color(0xFFFE600C),
+                          ),
+                        ),
+                        child: TextField(
+                          controller: usernameController,
+                          decoration: InputDecoration(
+                              hintStyle: const TextStyle(
+                                color: Color(0xFF848488),
+                                fontSize: 14,
+                                fontFamily: 'Inria Sans',
+                                fontWeight: FontWeight.w400,
+                                height: 0,
+                              ),
+                              helperStyle: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 14,
+                                fontFamily: 'Inria Sans',
+                                fontWeight: FontWeight.w400,
+                                height: 0,
+                              ),
+                              hintText: "Username",
+                              helperText: formFieldErrors?['name'] ?? '',
+                              border: OutlineInputBorder(borderRadius: BorderRadius.circular(50), borderSide: BorderSide.none),
+                              fillColor: Colors.white,
+                              filled: true,
+                              prefixIcon: const Icon(Icons.person)),
+                        ),
                       ),
                     ],
                   ),
@@ -179,9 +184,7 @@ class _SignupState extends ConsumerState<Signup> {
                             ),
                             hintText: "Email",
                             helperText: formFieldErrors?['email'] ?? '',
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(50),
-                                borderSide: BorderSide.none),
+                            border: OutlineInputBorder(borderRadius: BorderRadius.circular(50), borderSide: BorderSide.none),
                             fillColor: Colors.white,
                             filled: true,
                             prefixIcon: const Icon(Icons.email)),
@@ -226,9 +229,7 @@ class _SignupState extends ConsumerState<Signup> {
                             ),
                             hintText: "Password",
                             helperText: formFieldErrors?['password'] ?? '',
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(50),
-                                borderSide: BorderSide.none),
+                            border: OutlineInputBorder(borderRadius: BorderRadius.circular(50), borderSide: BorderSide.none),
                             fillColor: Colors.white,
                             filled: true,
                             prefixIcon: const Icon(Icons.password)),
@@ -272,11 +273,8 @@ class _SignupState extends ConsumerState<Signup> {
                               height: 0,
                             ),
                             hintText: "Confirm Password",
-                            helperText:
-                                formFieldErrors?['confirmPassword'] ?? '',
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(50),
-                                borderSide: BorderSide.none),
+                            helperText: formFieldErrors?['confirmPassword'] ?? '',
+                            border: OutlineInputBorder(borderRadius: BorderRadius.circular(50), borderSide: BorderSide.none),
                             fillColor: Colors.white,
                             filled: true,
                             prefixIcon: const Icon(Icons.password)),
@@ -306,22 +304,15 @@ class _SignupState extends ConsumerState<Signup> {
                             : () async {
                                 ref
                                     .read(authViewModelProvider.notifier)
-                                    .signUpUser(
-                                        name: usernameController.text,
-                                        email: emailController.text,
-                                        password: passwordController.text,
-                                        confirmPassword:
-                                            confirmPasswordController.text);
+                                    .signUpUser(name: usernameController.text, email: emailController.text, password: passwordController.text, confirmPassword: confirmPasswordController.text);
                               },
                         style: ElevatedButton.styleFrom(
                           shape: const StadiumBorder(),
                           //padding: const EdgeInsets.symmetric(vertical: 16),
                           backgroundColor: Colors.white,
                           disabledBackgroundColor: Colors.grey[200],
-                          disabledForegroundColor:
-                              const Color.fromRGBO(252, 138, 25, .8),
-                          foregroundColor:
-                              const Color.fromRGBO(252, 138, 25, 1),
+                          disabledForegroundColor: const Color.fromRGBO(252, 138, 25, .8),
+                          foregroundColor: const Color.fromRGBO(252, 138, 25, 1),
                         ),
                         child: Stack(
                           alignment: Alignment.center,
@@ -329,11 +320,7 @@ class _SignupState extends ConsumerState<Signup> {
                             const Text(
                               "Sign up",
                               // textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontFamily: 'Inria Sans',
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 24,
-                                  height: 0),
+                              style: TextStyle(fontFamily: 'Inria Sans', fontWeight: FontWeight.w400, fontSize: 24, height: 0),
                             ),
                             if (isLoading)
                               const CircularProgressIndicator(
@@ -365,13 +352,9 @@ class _SignupState extends ConsumerState<Signup> {
                         width: double.infinity,
                         child: TextButton(
                             onPressed: () {
-                              ref
-                                  .watch(signupFormErrorViewNotifierProvider
-                                      .notifier)
-                                  .unsetErrors();
+                              ref.watch(signupFormErrorViewNotifierProvider.notifier).unsetErrors();
 
-                              Navigator.pushReplacementNamed(
-                                  context, SignIn.routeName);
+                              Navigator.pushReplacementNamed(context, SignIn.routeName);
                             },
                             child: const Text(
                               'Sign in',

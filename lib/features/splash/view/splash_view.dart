@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fyp2_clean_architecture/core/failures/token_failure.dart';
+import 'package:fyp2_clean_architecture/core/models/failures/token_failure.dart';
 import 'package:fyp2_clean_architecture/core/providers/user/current_user.dart';
 import 'package:fyp2_clean_architecture/core/widgets/loader.dart';
 import 'package:fyp2_clean_architecture/features/auth/view/welcome.dart';

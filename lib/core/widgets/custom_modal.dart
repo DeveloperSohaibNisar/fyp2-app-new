@@ -40,31 +40,38 @@ class CustomModal extends StatelessWidget {
                   ),
                 ),
               ),
-              TextField(
-                controller: fileNameController,
-                decoration: InputDecoration(
-                    hintStyle: const TextStyle(
-                      color: Color(0xFF848488),
-                      fontSize: 14,
-                      fontFamily: 'Inria Sans',
-                      fontWeight: FontWeight.w400,
-                      height: 0,
-                    ),
-                    hintText: "File name",
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(50),
-                      borderSide:
-                          const BorderSide(width: 2, color: Color(0xFFFC8A19)),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(50),
-                      borderSide:
-                          const BorderSide(width: 2, color: Color(0xFFFC8A19)),
-                    ),
-                    fillColor: Colors.white,
-                    filled: true,
-                    prefixIcon: const Icon(Icons.article)),
-                    autofocus: true,
+              Theme(
+                data: Theme.of(context).copyWith(
+                  textSelectionTheme: const TextSelectionThemeData(
+                    cursorColor: Color(0xFFFE600C),
+                    selectionColor: Color(0xFFFE600C),
+                    selectionHandleColor: Color(0xFFFE600C),
+                  ),
+                ),
+                child: TextField(
+                  controller: fileNameController,
+                  decoration: InputDecoration(
+                      hintStyle: const TextStyle(
+                        color: Color(0xFF848488),
+                        fontSize: 14,
+                        fontFamily: 'Inria Sans',
+                        fontWeight: FontWeight.w400,
+                        height: 0,
+                      ),
+                      hintText: "File name",
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(50),
+                        borderSide: const BorderSide(width: 2, color: Color(0xFFFC8A19)),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(50),
+                        borderSide: const BorderSide(width: 2, color: Color(0xFFFC8A19)),
+                      ),
+                      fillColor: Colors.white,
+                      filled: true,
+                      prefixIcon: const Icon(Icons.article)),
+                  // autofocus: true,
+                ),
               ),
             ],
           ),
@@ -76,11 +83,7 @@ class CustomModal extends StatelessWidget {
                 gradient: const LinearGradient(
                   begin: Alignment(1.00, 0.00),
                   end: Alignment(-1, 0),
-                  colors: [
-                    Color(0xFFFC8A19),
-                    Color(0xFFFD7713),
-                    Color(0xFFFE600C)
-                  ],
+                  colors: [Color(0xFFFC8A19), Color(0xFFFD7713), Color(0xFFFE600C)],
                 ),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30),
@@ -98,19 +101,11 @@ class CustomModal extends StatelessWidget {
                 onPressed: () {
                   Navigator.of(context).pop(fileNameController.text);
                 },
-                style: ElevatedButton.styleFrom(
-                    shape: const StadiumBorder(),
-                    backgroundColor: Colors.transparent,
-                    shadowColor: Colors.transparent),
+                style: ElevatedButton.styleFrom(shape: const StadiumBorder(), backgroundColor: Colors.transparent, shadowColor: Colors.transparent),
                 child: const Text(
                   "Save",
                   textAlign: TextAlign.center,
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontFamily: 'Inria Sans',
-                      fontWeight: FontWeight.w400,
-                      fontSize: 24,
-                      height: 0),
+                  style: TextStyle(color: Colors.white, fontFamily: 'Inria Sans', fontWeight: FontWeight.w400, fontSize: 24, height: 0),
                 ),
               )),
           const SizedBox(height: 28),
@@ -139,17 +134,12 @@ class CustomModal extends StatelessWidget {
                   shape: const StadiumBorder(),
                   backgroundColor: Colors.white,
                   disabledBackgroundColor: Colors.grey[200],
-                  disabledForegroundColor:
-                      const Color.fromRGBO(252, 138, 25, .8),
+                  disabledForegroundColor: const Color.fromRGBO(252, 138, 25, .8),
                   foregroundColor: const Color.fromRGBO(252, 138, 25, 1),
                 ),
                 child: const Text(
                   "Cancel",
-                  style: TextStyle(
-                      fontFamily: 'Inria Sans',
-                      fontWeight: FontWeight.w400,
-                      fontSize: 24,
-                      height: 0),
+                  style: TextStyle(fontFamily: 'Inria Sans', fontWeight: FontWeight.w400, fontSize: 24, height: 0),
                 ),
               )),
         ],

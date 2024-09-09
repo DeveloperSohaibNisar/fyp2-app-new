@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fyp2_clean_architecture/core/widgets/loader.dart';
 import 'package:fyp2_clean_architecture/features/home/model/pdf_list_item/pdf_list_item_model.dart';
 import 'package:fyp2_clean_architecture/features/home/viewmodel/pdf/pdfs_viewmodel.dart';
-import 'package:fyp2_clean_architecture/features/pdf_summary/pdf_summary_tabs_view.dart';
+import 'package:fyp2_clean_architecture/features/pdf_summary/view/pdf_summary_tabs_view.dart';
 
 import 'package:intl/intl.dart';
 
@@ -58,7 +58,7 @@ class _PdfListState extends ConsumerState<PdfList> {
                       },
                       child: const Text(
                         textAlign: TextAlign.center,
-                        'No Recordings',
+                        'No Pdf\'s',
                         style: TextStyle(
                           fontSize: 18,
                           color: Colors.white,
@@ -158,7 +158,7 @@ class PdfListTile extends StatelessWidget {
           fontSize: 9,
           fontWeight: FontWeight.bold,
           color: Colors.black.withOpacity(.51)),
-      subtitle: Text(DateFormat('dd-MMM-yyyy').format(pdf.uploadDate)),
+      subtitle: Text(DateFormat('dd-MMM-yyyy').format(pdf.createdAt)),
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -167,7 +167,7 @@ class PdfListTile extends StatelessWidget {
         ],
       ),
       onTap: () {
-        Navigator.restorablePushNamed(context, PdfTabsView.routeName);
+        Navigator.pushNamed(context, PdfTabsView.routeName, arguments: pdf);
       },
     );
   }

@@ -31,10 +31,8 @@ class SignIn extends ConsumerWidget {
           loading: () {});
     });
 
-    Map<String, dynamic>? formFieldErrors =
-        ref.watch(loginFormErrorViewNotifierProvider)?.errors;
-    final isLoading = ref
-        .watch(authViewModelProvider.select((val) => val?.isLoading == true));
+    Map<String, dynamic>? formFieldErrors = ref.watch(loginFormErrorViewNotifierProvider)?.errors;
+    final isLoading = ref.watch(authViewModelProvider.select((val) => val?.isLoading == true));
 
     return Scaffold(
       appBar: AppBar(
@@ -63,11 +61,7 @@ class SignIn extends ConsumerWidget {
                   gradient: LinearGradient(
                     begin: Alignment(1.00, 0.00),
                     end: Alignment(-1, 0),
-                    colors: [
-                      Color(0xFFFC8A19),
-                      Color(0xFFFD7713),
-                      Color(0xFFFE600C)
-                    ],
+                    colors: [Color(0xFFFC8A19), Color(0xFFFD7713), Color(0xFFFE600C)],
                   ),
                 ),
                 width: double.infinity,
@@ -89,16 +83,11 @@ class SignIn extends ConsumerWidget {
                 gradient: LinearGradient(
                   begin: Alignment(1.00, 0.00),
                   end: Alignment(-1, 0),
-                  colors: [
-                    Color(0xFFFC8A19),
-                    Color(0xFFFD7713),
-                    Color(0xFFFE600C)
-                  ],
+                  colors: [Color(0xFFFC8A19), Color(0xFFFD7713), Color(0xFFFE600C)],
                 ),
               ),
               child: Container(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 56, horizontal: 24),
+                padding: const EdgeInsets.symmetric(vertical: 56, horizontal: 24),
                 //clipBehavior: Clip.antiAlias,
                 decoration: const ShapeDecoration(
                   color: Colors.white,
@@ -129,42 +118,51 @@ class SignIn extends ConsumerWidget {
                             ),
                           ),
                         ),
-                        TextField(
-                          controller: emailController,
-                          decoration: InputDecoration(
-                              hintStyle: const TextStyle(
-                                color: Color(0xFF848488),
-                                fontSize: 14,
-                                fontFamily: 'Inria Sans',
-                                fontWeight: FontWeight.w400,
-                                height: 0,
-                              ),
-                              helperStyle: const TextStyle(
-                                color: Colors.red,
-                                fontSize: 14,
-                                fontFamily: 'Inria Sans',
-                                fontWeight: FontWeight.w400,
-                                height: 0,
-                              ),
-                              hintText: "Email",
-                              helperText: formFieldErrors?['email'] ?? '',
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(50),
-                                borderSide: const BorderSide(
-                                  width: 2,
-                                  color: Color(0xFFFC8A19),
+                        Theme(
+                          data: Theme.of(context).copyWith(
+                            textSelectionTheme: const TextSelectionThemeData(
+                              cursorColor: Color(0xFFFE600C),
+                              selectionColor: Color(0xFFFE600C),
+                              selectionHandleColor: Color(0xFFFE600C),
+                            ),
+                          ),
+                          child: TextField(
+                            controller: emailController,
+                            decoration: InputDecoration(
+                                hintStyle: const TextStyle(
+                                  color: Color(0xFF848488),
+                                  fontSize: 14,
+                                  fontFamily: 'Inria Sans',
+                                  fontWeight: FontWeight.w400,
+                                  height: 0,
                                 ),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(50),
-                                borderSide: const BorderSide(
-                                  width: 2,
-                                  color: Color(0xFFFC8A19),
+                                helperStyle: const TextStyle(
+                                  color: Colors.red,
+                                  fontSize: 14,
+                                  fontFamily: 'Inria Sans',
+                                  fontWeight: FontWeight.w400,
+                                  height: 0,
                                 ),
-                              ),
-                              fillColor: Colors.white,
-                              filled: true,
-                              prefixIcon: const Icon(Icons.email)),
+                                hintText: "Email",
+                                helperText: formFieldErrors?['email'] ?? '',
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(50),
+                                  borderSide: const BorderSide(
+                                    width: 2,
+                                    color: Color(0xFFFC8A19),
+                                  ),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(50),
+                                  borderSide: const BorderSide(
+                                    width: 2,
+                                    color: Color(0xFFFC8A19),
+                                  ),
+                                ),
+                                fillColor: Colors.white,
+                                filled: true,
+                                prefixIcon: const Icon(Icons.email)),
+                          ),
                         ),
                       ],
                     ),
@@ -186,38 +184,45 @@ class SignIn extends ConsumerWidget {
                             ),
                           ),
                         ),
-                        TextField(
-                          controller: passwordController,
-                          decoration: InputDecoration(
-                              hintStyle: const TextStyle(
-                                color: Color(0xFF848488),
-                                fontSize: 14,
-                                fontFamily: 'Inria Sans',
-                                fontWeight: FontWeight.w400,
-                                height: 0,
-                              ),
-                              helperStyle: const TextStyle(
-                                color: Colors.red,
-                                fontSize: 14,
-                                fontFamily: 'Inria Sans',
-                                fontWeight: FontWeight.w400,
-                                height: 0,
-                              ),
-                              hintText: "Password",
-                              helperText: formFieldErrors?['password'] ?? '',
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(50),
-                                borderSide: const BorderSide(
-                                    width: 2, color: Color(0xFFFC8A19)),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(50),
-                                borderSide: const BorderSide(
-                                    width: 2, color: Color(0xFFFC8A19)),
-                              ),
-                              fillColor: Colors.white,
-                              filled: true,
-                              prefixIcon: const Icon(Icons.password)),
+                        Theme(
+                          data: Theme.of(context).copyWith(
+                            textSelectionTheme: const TextSelectionThemeData(
+                              cursorColor: Color(0xFFFE600C),
+                              selectionColor: Color(0xFFFE600C),
+                              selectionHandleColor: Color(0xFFFE600C),
+                            ),
+                          ),
+                          child: TextField(
+                            controller: passwordController,
+                            decoration: InputDecoration(
+                                hintStyle: const TextStyle(
+                                  color: Color(0xFF848488),
+                                  fontSize: 14,
+                                  fontFamily: 'Inria Sans',
+                                  fontWeight: FontWeight.w400,
+                                  height: 0,
+                                ),
+                                helperStyle: const TextStyle(
+                                  color: Colors.red,
+                                  fontSize: 14,
+                                  fontFamily: 'Inria Sans',
+                                  fontWeight: FontWeight.w400,
+                                  height: 0,
+                                ),
+                                hintText: "Password",
+                                helperText: formFieldErrors?['password'] ?? '',
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(50),
+                                  borderSide: const BorderSide(width: 2, color: Color(0xFFFC8A19)),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(50),
+                                  borderSide: const BorderSide(width: 2, color: Color(0xFFFC8A19)),
+                                ),
+                                fillColor: Colors.white,
+                                filled: true,
+                                prefixIcon: const Icon(Icons.password)),
+                          ),
                         ),
                       ],
                     ),
@@ -230,11 +235,7 @@ class SignIn extends ConsumerWidget {
                           gradient: const LinearGradient(
                             begin: Alignment(1.00, 0.00),
                             end: Alignment(-1, 0),
-                            colors: [
-                              Color(0xFFFC8A19),
-                              Color(0xFFFD7713),
-                              Color(0xFFFE600C)
-                            ],
+                            colors: [Color(0xFFFC8A19), Color(0xFFFD7713), Color(0xFFFE600C)],
                           ),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30),
@@ -252,9 +253,7 @@ class SignIn extends ConsumerWidget {
                           onPressed: isLoading
                               ? null
                               : () async {
-                                  ref
-                                      .read(authViewModelProvider.notifier)
-                                      .loginUser(
+                                  ref.read(authViewModelProvider.notifier).loginUser(
                                         email: emailController.text,
                                         password: passwordController.text,
                                       );
@@ -270,12 +269,7 @@ class SignIn extends ConsumerWidget {
                               const Text(
                                 "Sign In",
                                 textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontFamily: 'Inria Sans',
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 24,
-                                    height: 0),
+                                style: TextStyle(color: Colors.white, fontFamily: 'Inria Sans', fontWeight: FontWeight.w400, fontSize: 24, height: 0),
                               ),
                               if (isLoading)
                                 const CircularProgressIndicator(
@@ -311,13 +305,9 @@ class SignIn extends ConsumerWidget {
                             width: double.infinity,
                             child: TextButton(
                                 onPressed: () {
-                                  ref
-                                      .read(loginFormErrorViewNotifierProvider
-                                          .notifier)
-                                      .unsetErrors();
+                                  ref.read(loginFormErrorViewNotifierProvider.notifier).unsetErrors();
 
-                                  Navigator.pushReplacementNamed(
-                                      context, Signup.routeName);
+                                  Navigator.pushReplacementNamed(context, Signup.routeName);
                                 },
                                 child: const Text(
                                   'Sign Up',

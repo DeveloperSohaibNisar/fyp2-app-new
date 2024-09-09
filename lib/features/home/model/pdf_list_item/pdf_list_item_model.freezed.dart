@@ -24,12 +24,10 @@ mixin _$PdfListItemModel {
   @JsonKey(name: '_id')
   String get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
-  DateTime get uploadDate => throw _privateConstructorUsedError;
-  String get numpages => throw _privateConstructorUsedError;
+  DateTime get createdAt => throw _privateConstructorUsedError;
+  int get numpages => throw _privateConstructorUsedError;
   String get pdfUrl => throw _privateConstructorUsedError;
-  bool get isVectorDatabaseCreated => throw _privateConstructorUsedError;
-  bool get isSummaryCreated => throw _privateConstructorUsedError;
-  String? get summaryText => throw _privateConstructorUsedError;
+  SummaryData get summaryData => throw _privateConstructorUsedError;
 
   /// Serializes this PdfListItemModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -50,12 +48,12 @@ abstract class $PdfListItemModelCopyWith<$Res> {
   $Res call(
       {@JsonKey(name: '_id') String id,
       String name,
-      DateTime uploadDate,
-      String numpages,
+      DateTime createdAt,
+      int numpages,
       String pdfUrl,
-      bool isVectorDatabaseCreated,
-      bool isSummaryCreated,
-      String? summaryText});
+      SummaryData summaryData});
+
+  $SummaryDataCopyWith<$Res> get summaryData;
 }
 
 /// @nodoc
@@ -75,12 +73,10 @@ class _$PdfListItemModelCopyWithImpl<$Res, $Val extends PdfListItemModel>
   $Res call({
     Object? id = null,
     Object? name = null,
-    Object? uploadDate = null,
+    Object? createdAt = null,
     Object? numpages = null,
     Object? pdfUrl = null,
-    Object? isVectorDatabaseCreated = null,
-    Object? isSummaryCreated = null,
-    Object? summaryText = freezed,
+    Object? summaryData = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -91,31 +87,33 @@ class _$PdfListItemModelCopyWithImpl<$Res, $Val extends PdfListItemModel>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      uploadDate: null == uploadDate
-          ? _value.uploadDate
-          : uploadDate // ignore: cast_nullable_to_non_nullable
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
       numpages: null == numpages
           ? _value.numpages
           : numpages // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
       pdfUrl: null == pdfUrl
           ? _value.pdfUrl
           : pdfUrl // ignore: cast_nullable_to_non_nullable
               as String,
-      isVectorDatabaseCreated: null == isVectorDatabaseCreated
-          ? _value.isVectorDatabaseCreated
-          : isVectorDatabaseCreated // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isSummaryCreated: null == isSummaryCreated
-          ? _value.isSummaryCreated
-          : isSummaryCreated // ignore: cast_nullable_to_non_nullable
-              as bool,
-      summaryText: freezed == summaryText
-          ? _value.summaryText
-          : summaryText // ignore: cast_nullable_to_non_nullable
-              as String?,
+      summaryData: null == summaryData
+          ? _value.summaryData
+          : summaryData // ignore: cast_nullable_to_non_nullable
+              as SummaryData,
     ) as $Val);
+  }
+
+  /// Create a copy of PdfListItemModel
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $SummaryDataCopyWith<$Res> get summaryData {
+    return $SummaryDataCopyWith<$Res>(_value.summaryData, (value) {
+      return _then(_value.copyWith(summaryData: value) as $Val);
+    });
   }
 }
 
@@ -130,12 +128,13 @@ abstract class _$$PdfListItemModelImplCopyWith<$Res>
   $Res call(
       {@JsonKey(name: '_id') String id,
       String name,
-      DateTime uploadDate,
-      String numpages,
+      DateTime createdAt,
+      int numpages,
       String pdfUrl,
-      bool isVectorDatabaseCreated,
-      bool isSummaryCreated,
-      String? summaryText});
+      SummaryData summaryData});
+
+  @override
+  $SummaryDataCopyWith<$Res> get summaryData;
 }
 
 /// @nodoc
@@ -153,12 +152,10 @@ class __$$PdfListItemModelImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? name = null,
-    Object? uploadDate = null,
+    Object? createdAt = null,
     Object? numpages = null,
     Object? pdfUrl = null,
-    Object? isVectorDatabaseCreated = null,
-    Object? isSummaryCreated = null,
-    Object? summaryText = freezed,
+    Object? summaryData = null,
   }) {
     return _then(_$PdfListItemModelImpl(
       id: null == id
@@ -169,30 +166,22 @@ class __$$PdfListItemModelImplCopyWithImpl<$Res>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      uploadDate: null == uploadDate
-          ? _value.uploadDate
-          : uploadDate // ignore: cast_nullable_to_non_nullable
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
       numpages: null == numpages
           ? _value.numpages
           : numpages // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
       pdfUrl: null == pdfUrl
           ? _value.pdfUrl
           : pdfUrl // ignore: cast_nullable_to_non_nullable
               as String,
-      isVectorDatabaseCreated: null == isVectorDatabaseCreated
-          ? _value.isVectorDatabaseCreated
-          : isVectorDatabaseCreated // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isSummaryCreated: null == isSummaryCreated
-          ? _value.isSummaryCreated
-          : isSummaryCreated // ignore: cast_nullable_to_non_nullable
-              as bool,
-      summaryText: freezed == summaryText
-          ? _value.summaryText
-          : summaryText // ignore: cast_nullable_to_non_nullable
-              as String?,
+      summaryData: null == summaryData
+          ? _value.summaryData
+          : summaryData // ignore: cast_nullable_to_non_nullable
+              as SummaryData,
     ));
   }
 }
@@ -203,12 +192,10 @@ class _$PdfListItemModelImpl implements _PdfListItemModel {
   const _$PdfListItemModelImpl(
       {@JsonKey(name: '_id') required this.id,
       required this.name,
-      required this.uploadDate,
+      required this.createdAt,
       required this.numpages,
       required this.pdfUrl,
-      required this.isVectorDatabaseCreated,
-      required this.isSummaryCreated,
-      required this.summaryText});
+      required this.summaryData});
 
   factory _$PdfListItemModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$PdfListItemModelImplFromJson(json);
@@ -220,21 +207,17 @@ class _$PdfListItemModelImpl implements _PdfListItemModel {
   @override
   final String name;
   @override
-  final DateTime uploadDate;
+  final DateTime createdAt;
   @override
-  final String numpages;
+  final int numpages;
   @override
   final String pdfUrl;
   @override
-  final bool isVectorDatabaseCreated;
-  @override
-  final bool isSummaryCreated;
-  @override
-  final String? summaryText;
+  final SummaryData summaryData;
 
   @override
   String toString() {
-    return 'PdfListItemModel(id: $id, name: $name, uploadDate: $uploadDate, numpages: $numpages, pdfUrl: $pdfUrl, isVectorDatabaseCreated: $isVectorDatabaseCreated, isSummaryCreated: $isSummaryCreated, summaryText: $summaryText)';
+    return 'PdfListItemModel(id: $id, name: $name, createdAt: $createdAt, numpages: $numpages, pdfUrl: $pdfUrl, summaryData: $summaryData)';
   }
 
   @override
@@ -244,24 +227,19 @@ class _$PdfListItemModelImpl implements _PdfListItemModel {
             other is _$PdfListItemModelImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
-            (identical(other.uploadDate, uploadDate) ||
-                other.uploadDate == uploadDate) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
             (identical(other.numpages, numpages) ||
                 other.numpages == numpages) &&
             (identical(other.pdfUrl, pdfUrl) || other.pdfUrl == pdfUrl) &&
-            (identical(
-                    other.isVectorDatabaseCreated, isVectorDatabaseCreated) ||
-                other.isVectorDatabaseCreated == isVectorDatabaseCreated) &&
-            (identical(other.isSummaryCreated, isSummaryCreated) ||
-                other.isSummaryCreated == isSummaryCreated) &&
-            (identical(other.summaryText, summaryText) ||
-                other.summaryText == summaryText));
+            (identical(other.summaryData, summaryData) ||
+                other.summaryData == summaryData));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, name, uploadDate, numpages,
-      pdfUrl, isVectorDatabaseCreated, isSummaryCreated, summaryText);
+  int get hashCode => Object.hash(
+      runtimeType, id, name, createdAt, numpages, pdfUrl, summaryData);
 
   /// Create a copy of PdfListItemModel
   /// with the given fields replaced by the non-null parameter values.
@@ -284,12 +262,10 @@ abstract class _PdfListItemModel implements PdfListItemModel {
   const factory _PdfListItemModel(
       {@JsonKey(name: '_id') required final String id,
       required final String name,
-      required final DateTime uploadDate,
-      required final String numpages,
+      required final DateTime createdAt,
+      required final int numpages,
       required final String pdfUrl,
-      required final bool isVectorDatabaseCreated,
-      required final bool isSummaryCreated,
-      required final String? summaryText}) = _$PdfListItemModelImpl;
+      required final SummaryData summaryData}) = _$PdfListItemModelImpl;
 
   factory _PdfListItemModel.fromJson(Map<String, dynamic> json) =
       _$PdfListItemModelImpl.fromJson;
@@ -301,17 +277,13 @@ abstract class _PdfListItemModel implements PdfListItemModel {
   @override
   String get name;
   @override
-  DateTime get uploadDate;
+  DateTime get createdAt;
   @override
-  String get numpages;
+  int get numpages;
   @override
   String get pdfUrl;
   @override
-  bool get isVectorDatabaseCreated;
-  @override
-  bool get isSummaryCreated;
-  @override
-  String? get summaryText;
+  SummaryData get summaryData;
 
   /// Create a copy of PdfListItemModel
   /// with the given fields replaced by the non-null parameter values.

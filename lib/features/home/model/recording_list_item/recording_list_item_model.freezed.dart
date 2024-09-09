@@ -25,14 +25,12 @@ mixin _$RecordingListItemModel {
   @JsonKey(name: '_id')
   String get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
-  DateTime get uploadDate => throw _privateConstructorUsedError;
+  DateTime get createdAt => throw _privateConstructorUsedError;
+  @DurationConverter()
   Duration get audioLength => throw _privateConstructorUsedError;
   String get audioUrl => throw _privateConstructorUsedError;
-  bool get isTranscriptionCreated => throw _privateConstructorUsedError;
-  bool get isVectorDatabaseCreated => throw _privateConstructorUsedError;
-  bool get isSummaryCreated => throw _privateConstructorUsedError;
   TranscriptionData get transcriptionData => throw _privateConstructorUsedError;
-  String get summaryText => throw _privateConstructorUsedError;
+  SummaryData get summaryData => throw _privateConstructorUsedError;
 
   /// Serializes this RecordingListItemModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -53,16 +51,14 @@ abstract class $RecordingListItemModelCopyWith<$Res> {
   $Res call(
       {@JsonKey(name: '_id') String id,
       String name,
-      DateTime uploadDate,
-      Duration audioLength,
+      DateTime createdAt,
+      @DurationConverter() Duration audioLength,
       String audioUrl,
-      bool isTranscriptionCreated,
-      bool isVectorDatabaseCreated,
-      bool isSummaryCreated,
       TranscriptionData transcriptionData,
-      String summaryText});
+      SummaryData summaryData});
 
   $TranscriptionDataCopyWith<$Res> get transcriptionData;
+  $SummaryDataCopyWith<$Res> get summaryData;
 }
 
 /// @nodoc
@@ -83,14 +79,11 @@ class _$RecordingListItemModelCopyWithImpl<$Res,
   $Res call({
     Object? id = null,
     Object? name = null,
-    Object? uploadDate = null,
+    Object? createdAt = null,
     Object? audioLength = null,
     Object? audioUrl = null,
-    Object? isTranscriptionCreated = null,
-    Object? isVectorDatabaseCreated = null,
-    Object? isSummaryCreated = null,
     Object? transcriptionData = null,
-    Object? summaryText = null,
+    Object? summaryData = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -101,9 +94,9 @@ class _$RecordingListItemModelCopyWithImpl<$Res,
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      uploadDate: null == uploadDate
-          ? _value.uploadDate
-          : uploadDate // ignore: cast_nullable_to_non_nullable
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
       audioLength: null == audioLength
           ? _value.audioLength
@@ -113,26 +106,14 @@ class _$RecordingListItemModelCopyWithImpl<$Res,
           ? _value.audioUrl
           : audioUrl // ignore: cast_nullable_to_non_nullable
               as String,
-      isTranscriptionCreated: null == isTranscriptionCreated
-          ? _value.isTranscriptionCreated
-          : isTranscriptionCreated // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isVectorDatabaseCreated: null == isVectorDatabaseCreated
-          ? _value.isVectorDatabaseCreated
-          : isVectorDatabaseCreated // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isSummaryCreated: null == isSummaryCreated
-          ? _value.isSummaryCreated
-          : isSummaryCreated // ignore: cast_nullable_to_non_nullable
-              as bool,
       transcriptionData: null == transcriptionData
           ? _value.transcriptionData
           : transcriptionData // ignore: cast_nullable_to_non_nullable
               as TranscriptionData,
-      summaryText: null == summaryText
-          ? _value.summaryText
-          : summaryText // ignore: cast_nullable_to_non_nullable
-              as String,
+      summaryData: null == summaryData
+          ? _value.summaryData
+          : summaryData // ignore: cast_nullable_to_non_nullable
+              as SummaryData,
     ) as $Val);
   }
 
@@ -143,6 +124,16 @@ class _$RecordingListItemModelCopyWithImpl<$Res,
   $TranscriptionDataCopyWith<$Res> get transcriptionData {
     return $TranscriptionDataCopyWith<$Res>(_value.transcriptionData, (value) {
       return _then(_value.copyWith(transcriptionData: value) as $Val);
+    });
+  }
+
+  /// Create a copy of RecordingListItemModel
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $SummaryDataCopyWith<$Res> get summaryData {
+    return $SummaryDataCopyWith<$Res>(_value.summaryData, (value) {
+      return _then(_value.copyWith(summaryData: value) as $Val);
     });
   }
 }
@@ -159,17 +150,16 @@ abstract class _$$RecordingListItemModelImplCopyWith<$Res>
   $Res call(
       {@JsonKey(name: '_id') String id,
       String name,
-      DateTime uploadDate,
-      Duration audioLength,
+      DateTime createdAt,
+      @DurationConverter() Duration audioLength,
       String audioUrl,
-      bool isTranscriptionCreated,
-      bool isVectorDatabaseCreated,
-      bool isSummaryCreated,
       TranscriptionData transcriptionData,
-      String summaryText});
+      SummaryData summaryData});
 
   @override
   $TranscriptionDataCopyWith<$Res> get transcriptionData;
+  @override
+  $SummaryDataCopyWith<$Res> get summaryData;
 }
 
 /// @nodoc
@@ -189,14 +179,11 @@ class __$$RecordingListItemModelImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? name = null,
-    Object? uploadDate = null,
+    Object? createdAt = null,
     Object? audioLength = null,
     Object? audioUrl = null,
-    Object? isTranscriptionCreated = null,
-    Object? isVectorDatabaseCreated = null,
-    Object? isSummaryCreated = null,
     Object? transcriptionData = null,
-    Object? summaryText = null,
+    Object? summaryData = null,
   }) {
     return _then(_$RecordingListItemModelImpl(
       id: null == id
@@ -207,9 +194,9 @@ class __$$RecordingListItemModelImplCopyWithImpl<$Res>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      uploadDate: null == uploadDate
-          ? _value.uploadDate
-          : uploadDate // ignore: cast_nullable_to_non_nullable
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
       audioLength: null == audioLength
           ? _value.audioLength
@@ -219,26 +206,14 @@ class __$$RecordingListItemModelImplCopyWithImpl<$Res>
           ? _value.audioUrl
           : audioUrl // ignore: cast_nullable_to_non_nullable
               as String,
-      isTranscriptionCreated: null == isTranscriptionCreated
-          ? _value.isTranscriptionCreated
-          : isTranscriptionCreated // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isVectorDatabaseCreated: null == isVectorDatabaseCreated
-          ? _value.isVectorDatabaseCreated
-          : isVectorDatabaseCreated // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isSummaryCreated: null == isSummaryCreated
-          ? _value.isSummaryCreated
-          : isSummaryCreated // ignore: cast_nullable_to_non_nullable
-              as bool,
       transcriptionData: null == transcriptionData
           ? _value.transcriptionData
           : transcriptionData // ignore: cast_nullable_to_non_nullable
               as TranscriptionData,
-      summaryText: null == summaryText
-          ? _value.summaryText
-          : summaryText // ignore: cast_nullable_to_non_nullable
-              as String,
+      summaryData: null == summaryData
+          ? _value.summaryData
+          : summaryData // ignore: cast_nullable_to_non_nullable
+              as SummaryData,
     ));
   }
 }
@@ -249,14 +224,11 @@ class _$RecordingListItemModelImpl implements _RecordingListItemModel {
   const _$RecordingListItemModelImpl(
       {@JsonKey(name: '_id') required this.id,
       required this.name,
-      required this.uploadDate,
-      required this.audioLength,
+      required this.createdAt,
+      @DurationConverter() required this.audioLength,
       required this.audioUrl,
-      required this.isTranscriptionCreated,
-      required this.isVectorDatabaseCreated,
-      required this.isSummaryCreated,
       required this.transcriptionData,
-      required this.summaryText});
+      required this.summaryData});
 
   factory _$RecordingListItemModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$RecordingListItemModelImplFromJson(json);
@@ -268,25 +240,20 @@ class _$RecordingListItemModelImpl implements _RecordingListItemModel {
   @override
   final String name;
   @override
-  final DateTime uploadDate;
+  final DateTime createdAt;
   @override
+  @DurationConverter()
   final Duration audioLength;
   @override
   final String audioUrl;
   @override
-  final bool isTranscriptionCreated;
-  @override
-  final bool isVectorDatabaseCreated;
-  @override
-  final bool isSummaryCreated;
-  @override
   final TranscriptionData transcriptionData;
   @override
-  final String summaryText;
+  final SummaryData summaryData;
 
   @override
   String toString() {
-    return 'RecordingListItemModel(id: $id, name: $name, uploadDate: $uploadDate, audioLength: $audioLength, audioUrl: $audioUrl, isTranscriptionCreated: $isTranscriptionCreated, isVectorDatabaseCreated: $isVectorDatabaseCreated, isSummaryCreated: $isSummaryCreated, transcriptionData: $transcriptionData, summaryText: $summaryText)';
+    return 'RecordingListItemModel(id: $id, name: $name, createdAt: $createdAt, audioLength: $audioLength, audioUrl: $audioUrl, transcriptionData: $transcriptionData, summaryData: $summaryData)';
   }
 
   @override
@@ -296,39 +263,22 @@ class _$RecordingListItemModelImpl implements _RecordingListItemModel {
             other is _$RecordingListItemModelImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
-            (identical(other.uploadDate, uploadDate) ||
-                other.uploadDate == uploadDate) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
             (identical(other.audioLength, audioLength) ||
                 other.audioLength == audioLength) &&
             (identical(other.audioUrl, audioUrl) ||
                 other.audioUrl == audioUrl) &&
-            (identical(other.isTranscriptionCreated, isTranscriptionCreated) ||
-                other.isTranscriptionCreated == isTranscriptionCreated) &&
-            (identical(
-                    other.isVectorDatabaseCreated, isVectorDatabaseCreated) ||
-                other.isVectorDatabaseCreated == isVectorDatabaseCreated) &&
-            (identical(other.isSummaryCreated, isSummaryCreated) ||
-                other.isSummaryCreated == isSummaryCreated) &&
             (identical(other.transcriptionData, transcriptionData) ||
                 other.transcriptionData == transcriptionData) &&
-            (identical(other.summaryText, summaryText) ||
-                other.summaryText == summaryText));
+            (identical(other.summaryData, summaryData) ||
+                other.summaryData == summaryData));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      id,
-      name,
-      uploadDate,
-      audioLength,
-      audioUrl,
-      isTranscriptionCreated,
-      isVectorDatabaseCreated,
-      isSummaryCreated,
-      transcriptionData,
-      summaryText);
+  int get hashCode => Object.hash(runtimeType, id, name, createdAt, audioLength,
+      audioUrl, transcriptionData, summaryData);
 
   /// Create a copy of RecordingListItemModel
   /// with the given fields replaced by the non-null parameter values.
@@ -351,14 +301,11 @@ abstract class _RecordingListItemModel implements RecordingListItemModel {
   const factory _RecordingListItemModel(
       {@JsonKey(name: '_id') required final String id,
       required final String name,
-      required final DateTime uploadDate,
-      required final Duration audioLength,
+      required final DateTime createdAt,
+      @DurationConverter() required final Duration audioLength,
       required final String audioUrl,
-      required final bool isTranscriptionCreated,
-      required final bool isVectorDatabaseCreated,
-      required final bool isSummaryCreated,
       required final TranscriptionData transcriptionData,
-      required final String summaryText}) = _$RecordingListItemModelImpl;
+      required final SummaryData summaryData}) = _$RecordingListItemModelImpl;
 
   factory _RecordingListItemModel.fromJson(Map<String, dynamic> json) =
       _$RecordingListItemModelImpl.fromJson;
@@ -370,21 +317,16 @@ abstract class _RecordingListItemModel implements RecordingListItemModel {
   @override
   String get name;
   @override
-  DateTime get uploadDate;
+  DateTime get createdAt;
   @override
+  @DurationConverter()
   Duration get audioLength;
   @override
   String get audioUrl;
   @override
-  bool get isTranscriptionCreated;
-  @override
-  bool get isVectorDatabaseCreated;
-  @override
-  bool get isSummaryCreated;
-  @override
   TranscriptionData get transcriptionData;
   @override
-  String get summaryText;
+  SummaryData get summaryData;
 
   /// Create a copy of RecordingListItemModel
   /// with the given fields replaced by the non-null parameter values.

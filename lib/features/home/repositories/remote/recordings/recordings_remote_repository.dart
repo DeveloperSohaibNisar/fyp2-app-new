@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:dartz/dartz.dart';
 import 'package:fyp2_clean_architecture/core/consts.dart';
-import 'package:fyp2_clean_architecture/core/failures/general_failure.dart';
+import 'package:fyp2_clean_architecture/core/models/failures/general_failure.dart';
 import 'package:fyp2_clean_architecture/features/home/model/recording_list_item/recording_list_item_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
@@ -50,6 +50,13 @@ class RecordingsRemoteRepository {
         );
 
       final response = await request.send();
+      // .timeout(
+      //   const Duration(seconds: 100),
+      //   onTimeout: () {
+      //     throw 'Network Timeout Error';
+      //   },
+      // );
+
       var uploadedAudio = await response.stream.bytesToString();
       final resBodyMap = jsonDecode(uploadedAudio) as Map<String, dynamic>;
       if (response.statusCode == 200) {
@@ -65,31 +72,6 @@ class RecordingsRemoteRepository {
     }
   }
 
-  // Future<Either<GeneralFailure, RecordingListItemModel>> createTranscription({
-  //   required String audioId,
-  //   required String token,
-  // }) async {
-  //   try {
-  //     final response = await http
-  //         .post(Uri.parse('$serverURL/audio/transcription/$audioId'), headers: {
-  //       'Authorization': 'Bearer $token',
-  //     });
-
-  //     var resBodyMap = jsonDecode(response.body) as Map<String, dynamic>;
-
-  //     if (response.statusCode == 200) {
-  //       return Right(RecordingListItemModel.fromJson(resBodyMap));
-  //     } else if (resBodyMap.containsKey('message') &&
-  //         resBodyMap['message'] != null) {
-  //       throw resBodyMap['message']!;
-  //     } else {
-  //       throw 'Something went wrong';
-  //     }
-  //   } catch (e) {
-  //     return Left(GeneralFailure(message: e.toString()));
-  //   }
-  // }
-
   Future<Either<GeneralFailure, List<RecordingListItemModel>>>
       getPaginatedRecordings({
     required String token,
@@ -101,12 +83,18 @@ class RecordingsRemoteRepository {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer $token',
       });
+      // .timeout(
+      //   const Duration(seconds: 30),
+      //   onTimeout: () {
+      //     throw 'Network Timeout Error';
+      //   },
+      // );
+
       var resBodyMap = jsonDecode(response.body);
 
       if (response.statusCode == 200) {
         List<RecordingListItemModel> recordings = [];
-        resBodyMap = resBodyMap as List;
-        for (final recording in resBodyMap) {
+        for (final recording in resBodyMap as List) {
           recordings.add(RecordingListItemModel.fromJson(recording));
         }
         return Right(recordings);

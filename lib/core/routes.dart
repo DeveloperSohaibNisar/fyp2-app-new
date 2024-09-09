@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:fyp2_clean_architecture/core/models/note_argument.dart';
+import 'package:fyp2_clean_architecture/core/models/note_list_item/note_list_item_model.dart';
 import 'package:fyp2_clean_architecture/features/auth/view/signin.dart';
 import 'package:fyp2_clean_architecture/features/auth/view/signup.dart';
 import 'package:fyp2_clean_architecture/features/auth/view/welcome.dart';
+import 'package:fyp2_clean_architecture/features/home/model/pdf_list_item/pdf_list_item_model.dart';
 import 'package:fyp2_clean_architecture/features/home/model/recording_list_item/recording_list_item_model.dart';
 import 'package:fyp2_clean_architecture/features/home/view/home_view.dart';
 import 'package:fyp2_clean_architecture/features/illegal_argument/view/illegal_argument_view.dart';
-import 'package:fyp2_clean_architecture/features/pdf_summary/pdf_summary_tabs_view.dart';
-import 'package:fyp2_clean_architecture/features/home/view/pages/recorder/recorder_view.dart';
-import 'package:fyp2_clean_architecture/features/home/view/pages/recording_summary/recording_summary_tabs_view.dart';
+import 'package:fyp2_clean_architecture/features/note_editor/view/note_editor_view.dart';
+import 'package:fyp2_clean_architecture/features/pdf_summary/view/pdf_summary_tabs_view.dart';
+import 'package:fyp2_clean_architecture/features/recorder/recorder_view.dart';
+import 'package:fyp2_clean_architecture/features/recording_summary/recording_summary_tabs_view.dart';
 import 'package:fyp2_clean_architecture/features/settings/settings_view.dart';
 import 'package:fyp2_clean_architecture/features/splash/view/splash_view.dart';
 
@@ -28,7 +32,20 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
               return const IllegalArgumentView();
             }
           case PdfTabsView.routeName:
-            return const PdfTabsView();
+            if (argument is PdfListItemModel) {
+              return PdfTabsView(pdf: argument);
+            } else {
+              return const IllegalArgumentView();
+            }
+          case NoteEditorView.routeName:
+            if (argument is NoteArgument) {
+              return NoteEditorView(
+                note: argument.note,
+                saveNote: argument.saveNote,
+              );
+            } else {
+              return const IllegalArgumentView();
+            }
           case HomeView.routeName:
             return const HomeView();
           case Signup.routeName:

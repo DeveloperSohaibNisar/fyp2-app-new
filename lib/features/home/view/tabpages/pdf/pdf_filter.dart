@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fyp2_clean_architecture/core/consts.dart';
 import 'package:fyp2_clean_architecture/features/home/viewmodel/pdf/pdfs_viewmodel.dart';
-import 'package:fyp2_clean_architecture/state/app_state.dart';
-import 'package:provider/provider.dart';
 
 class PdfFilterContainer extends StatelessWidget {
   const PdfFilterContainer({super.key});
@@ -16,38 +14,40 @@ class PdfFilterContainer extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
         decoration: const BoxDecoration(color: Colors.white),
-        child: const Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          const Text(style: TextStyle(fontSize: 18), 'PDF\'s'),
+          const SizedBox(height: 8),
+          Row(
             children: [
-              Text(style: TextStyle(fontSize: 18), 'PDF\'s'),
-              SizedBox(height: 8),
-              Row(
-                children: [
-                  Flexible(
-                    child: TextField(
-                      decoration: InputDecoration(
-                        contentPadding: EdgeInsets.all(8),
-                        filled: true,
-                        fillColor: Color.fromRGBO(118, 118, 128, 0.12),
-                        prefixIcon: Icon(Icons.search, shadows: <Shadow>[
-                          Shadow(
-                              color: Color.fromRGBO(0, 0, 0, .20),
-                              blurRadius: 4,
-                              offset: Offset(0, 4))
-                        ]),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
-                          borderSide: BorderSide.none,
-                        ),
-                        hintText: 'Search For List',
-                      ),
+              Flexible(
+                child: Theme(
+                  data: Theme.of(context).copyWith(
+                    textSelectionTheme: const TextSelectionThemeData(
+                      cursorColor: Color(0xFFFE600C),
+                      selectionColor: Color(0xFFFE600C),
+                      selectionHandleColor: Color(0xFFFE600C),
                     ),
                   ),
-                  SortMenu(),
-                  SortToogle(),
-                ],
+                  child: const TextField(
+                    decoration: InputDecoration(
+                      contentPadding: EdgeInsets.all(8),
+                      filled: true,
+                      fillColor: Color.fromRGBO(118, 118, 128, 0.12),
+                      prefixIcon: Icon(Icons.search, shadows: <Shadow>[Shadow(color: Color.fromRGBO(0, 0, 0, .20), blurRadius: 4, offset: Offset(0, 4))]),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        borderSide: BorderSide.none,
+                      ),
+                      hintText: 'Search For List',
+                    ),
+                  ),
+                ),
               ),
-            ]),
+              const SortMenu(),
+              const SortToogle(),
+            ],
+          ),
+        ]),
       ),
     );
   }

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fyp2_clean_architecture/core/widgets/loader.dart';
 import 'package:fyp2_clean_architecture/features/home/model/recording_list_item/recording_list_item_model.dart';
-import 'package:fyp2_clean_architecture/features/home/view/pages/recording_summary/recording_summary_tabs_view.dart';
+import 'package:fyp2_clean_architecture/features/recording_summary/recording_summary_tabs_view.dart';
 import 'package:fyp2_clean_architecture/features/home/viewmodel/recordings/recodings_viewmodel.dart';
 import 'package:intl/intl.dart';
 
@@ -133,6 +133,7 @@ class RecordingListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(recording.audioLength.inSeconds);
     return ListTile(
       dense: true,
       leading: DecoratedBox(
@@ -160,7 +161,7 @@ class RecordingListTile extends StatelessWidget {
           fontSize: 9,
           fontWeight: FontWeight.bold,
           color: Colors.black.withOpacity(.51)),
-      subtitle: Text(DateFormat('dd-MMM-yyyy').format(recording.uploadDate)),
+      subtitle: Text(DateFormat('dd-MMM-yyyy').format(recording.createdAt)),
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         children: [

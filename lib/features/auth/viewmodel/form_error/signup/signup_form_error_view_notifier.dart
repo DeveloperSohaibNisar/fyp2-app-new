@@ -1,4 +1,4 @@
-import 'package:fyp2_clean_architecture/core/failures/form_faliure.dart';
+import 'package:fyp2_clean_architecture/core/models/failures/form_faliure.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'signup_form_error_view_notifier.g.dart';

@@ -31,11 +31,12 @@ class Welcome extends StatelessWidget {
             children: [
               const Column(
                 children: [
-                  Icon(
-                    size: 60,
-                    Icons.image,
-                    color: Colors.white,
-                  ),
+                  // Icon(
+                  //   size: 60,
+                  //   Icons.image,
+                  //   color: Colors.white,
+                  // ),
+                  Image(image: AssetImage('assets/images/app_logo.png')),
                   SizedBox(height: 24),
                   Center(
                     child: Text(

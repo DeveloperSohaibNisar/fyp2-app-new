@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fyp2_clean_architecture/core/consts.dart';
-import 'package:fyp2_clean_architecture/state/app_state.dart';
-import 'package:provider/provider.dart';
+import 'package:fyp2_clean_architecture/features/home/viewmodel/note/notes_viewmodel.dart';
 
 class NoteFilterContainer extends StatelessWidget {
   const NoteFilterContainer({super.key});
@@ -14,72 +14,74 @@ class NoteFilterContainer extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
         decoration: const BoxDecoration(color: Colors.white),
-        child: const Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          const Text(style: TextStyle(fontSize: 18), 'Notes'),
+          const SizedBox(height: 8),
+          Row(
             children: [
-              Text(style: TextStyle(fontSize: 18), 'Notes'),
-              SizedBox(height: 8),
-              Row(
-                children: [
-                  Flexible(
-                    child: TextField(
-                      decoration: InputDecoration(
-                        contentPadding: EdgeInsets.all(8),
-                        filled: true,
-                        fillColor: Color.fromRGBO(118, 118, 128, 0.12),
-                        prefixIcon: Icon(Icons.search, shadows: <Shadow>[
-                          Shadow(
-                              color: Color.fromRGBO(0, 0, 0, .20),
-                              blurRadius: 4,
-                              offset: Offset(0, 4))
-                        ]),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
-                          borderSide: BorderSide.none,
-                        ),
-                        hintText: 'Search For List',
-                      ),
+              Flexible(
+                child: Theme(
+                  data: Theme.of(context).copyWith(
+                    textSelectionTheme: const TextSelectionThemeData(
+                      cursorColor: Color(0xFFFE600C),
+                      selectionColor: Color(0xFFFE600C),
+                      selectionHandleColor: Color(0xFFFE600C),
                     ),
                   ),
-                  SortMenu(),
-                  SortToogle(),
-                ],
+                  child: const TextField(
+                    decoration: InputDecoration(
+                      contentPadding: EdgeInsets.all(8),
+                      filled: true,
+                      fillColor: Color.fromRGBO(118, 118, 128, 0.12),
+                      prefixIcon: Icon(Icons.search, shadows: <Shadow>[Shadow(color: Color.fromRGBO(0, 0, 0, .20), blurRadius: 4, offset: Offset(0, 4))]),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        borderSide: BorderSide.none,
+                      ),
+                      hintText: 'Search For List',
+                    ),
+                  ),
+                ),
               ),
-            ]),
+              const SortMenu(),
+              const SortToogle(),
+            ],
+          ),
+        ]),
       ),
     );
   }
 }
 
-class SortToogle extends StatelessWidget {
+class SortToogle extends ConsumerWidget {
   const SortToogle({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context) {
-    var appState = context.watch<AppState>();
+  Widget build(BuildContext context, WidgetRef ref) {
     return IconButton(
         onPressed: () {
-          appState.toogleNotesOrder();
+          ref.read(notesViewmodelProvider.notifier).toogleNotesOrder();
         },
         icon: const Icon(Icons.swap_vert));
   }
 }
 
-class SortMenu extends StatefulWidget {
+class SortMenu extends ConsumerStatefulWidget {
   const SortMenu({super.key});
 
   @override
-  State<SortMenu> createState() => _SortMenuState();
+  ConsumerState<SortMenu> createState() => _SortMenuState();
 }
 
-class _SortMenuState extends State<SortMenu> {
+class _SortMenuState extends ConsumerState<SortMenu> {
   NotesSortMenuItems? selectedItem;
 
   @override
-  Widget build(BuildContext context) {
-    var appState = context.watch<AppState>();
+  Widget build(
+    BuildContext context,
+  ) {
     return PopupMenuButton<NotesSortMenuItems>(
       icon: const Icon(Icons.sort),
       initialValue: selectedItem,
@@ -87,10 +89,9 @@ class _SortMenuState extends State<SortMenu> {
         setState(() {
           selectedItem = item;
         });
-        appState.sortNotes(selectedItem);
+        ref.read(notesViewmodelProvider.notifier).sortNotes(selectedItem);
       },
-      itemBuilder: (BuildContext context) =>
-          <PopupMenuEntry<NotesSortMenuItems>>[
+      itemBuilder: (BuildContext context) => <PopupMenuEntry<NotesSortMenuItems>>[
         const PopupMenuItem<NotesSortMenuItems>(
           value: NotesSortMenuItems.title,
           child: Text('Title'),

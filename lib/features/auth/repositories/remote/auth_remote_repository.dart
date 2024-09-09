@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import 'package:dartz/dartz.dart';
 import 'package:fyp2_clean_architecture/core/consts.dart';
-import 'package:fyp2_clean_architecture/core/failures/form_faliure.dart';
-import 'package:fyp2_clean_architecture/core/failures/general_failure.dart';
+import 'package:fyp2_clean_architecture/core/models/failures/form_faliure.dart';
+import 'package:fyp2_clean_architecture/core/models/failures/general_failure.dart';
 import 'package:fyp2_clean_architecture/features/auth/model/token_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:riverpod_annotation/riverpod_annotation.dart';

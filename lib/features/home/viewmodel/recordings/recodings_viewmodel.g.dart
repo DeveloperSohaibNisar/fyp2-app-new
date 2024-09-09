@@ -7,7 +7,7 @@ part of 'recodings_viewmodel.dart';
 // **************************************************************************
 
 String _$recodingsViewmodelHash() =>
-    r'e88ebb14e9927730426af1ccd7cb4862808963e8';
+    r'800dd8f675c1b384f47125a9a7679c39dbe6a673';
 
 /// See also [RecodingsViewmodel].
 @ProviderFor(RecodingsViewmodel)

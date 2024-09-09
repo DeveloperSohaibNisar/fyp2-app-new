@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import 'package:flutter/widgets.dart';
 import 'package:fyp2_clean_architecture/core/consts.dart';
+import 'package:fyp2_clean_architecture/core/providers/file_uploading/file_uploading.dart';
 import 'package:fyp2_clean_architecture/core/providers/user/current_user.dart';
 import 'package:fyp2_clean_architecture/features/home/model/recording_list_item/recording_list_item_model.dart';
 import 'package:fyp2_clean_architecture/features/home/repositories/remote/recordings/recordings_remote_repository.dart';
@@ -11,20 +11,15 @@ part 'recodings_viewmodel.g.dart';
 
 @riverpod
 class RecodingsViewmodel extends _$RecodingsViewmodel {
-  late RecordingsRemoteRepository _recordingsRepository;
+  late RecordingsRemoteRepository _recordingsRemoteRepository;
   late String _token;
   bool _hasMore = true;
-  bool _uploadingRecording = false;
   int _page = 0;
-  Object? key; // 1. create a key
 
   @override
   FutureOr<List<RecordingListItemModel>> build() async {
-    key = Object(); // 2. initialize key
-    ref.onDispose(() => key = null); // 3. set key to null on dispose
-    _recordingsRepository = ref.watch(recordingsRemoteRepositoryProvider);
-    _token =
-        ref.watch(currentUserProvider.select((user) => user.value!.token!));
+    _recordingsRemoteRepository = ref.watch(recordingsRemoteRepositoryProvider);
+    _token = ref.watch(currentUserProvider.select((user) => user.value!.token!));
 
     state = const AsyncValue.loading();
     var newState = await AsyncValue.guard(() => _getPaginatedRecordings());
@@ -33,7 +28,6 @@ class RecodingsViewmodel extends _$RecodingsViewmodel {
   }
 
   bool get hasMore => _hasMore;
-  bool get uploadingRecording => _uploadingRecording;
 
   Future<void> fetchmore() async {
     if (state.isLoading || !_hasMore) return;
@@ -49,7 +43,7 @@ class RecodingsViewmodel extends _$RecodingsViewmodel {
   }
 
   Future<List<RecordingListItemModel>> _getPaginatedRecordings() async {
-    final res = await _recordingsRepository.getPaginatedRecordings(
+    final res = await _recordingsRemoteRepository.getPaginatedRecordings(
       token: _token,
       page: _page,
     );
@@ -72,17 +66,13 @@ class RecodingsViewmodel extends _$RecodingsViewmodel {
     required String audioName,
   }) async {
     final link = ref.keepAlive();
-    _uploadingRecording = true;
-    final res = await _recordingsRepository.uploadRecording(
-        selectedAudio: selectedAudio, audioName: audioName, token: _token);
+    ref.read(fileUploadingProvider.notifier).setFileUpload();
+    final res = await _recordingsRemoteRepository.uploadRecording(selectedAudio: selectedAudio, audioName: audioName, token: _token);
 
-    res.fold(
-        (generalError) => state =
-            AsyncValue.error(generalError.message, StackTrace.current), (data) {
-      _uploadingRecording = false;
+    res.fold((generalError) => state = AsyncValue.error(generalError.message, StackTrace.current), (data) {
       state = AsyncValue.data([data, ...?state.value]);
     });
-    _uploadingRecording = false;
+    ref.read(fileUploadingProvider.notifier).unsetFileUpload();
     link.close();
   }
 
@@ -93,12 +83,10 @@ class RecodingsViewmodel extends _$RecodingsViewmodel {
         newState.sort((first, second) => first.name.compareTo(second.name));
         break;
       case RecordingSortMenuItems.date:
-        newState.sort(
-            (first, second) => first.uploadDate.compareTo(second.uploadDate));
+        newState.sort((first, second) => first.createdAt.compareTo(second.createdAt));
         break;
       case RecordingSortMenuItems.length:
-        newState.sort(
-            (first, second) => first.audioLength.compareTo(second.audioLength));
+        newState.sort((first, second) => first.audioLength.compareTo(second.audioLength));
         break;
       default:
     }

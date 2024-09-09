@@ -1,7 +1,7 @@
-import 'package:fyp2_clean_architecture/core/failures/token_failure.dart';
+import 'package:fyp2_clean_architecture/core/models/failures/token_failure.dart';
 import 'package:fyp2_clean_architecture/core/models/user/user_model.dart';
 import 'package:fyp2_clean_architecture/core/repositories/local/user_local_repository.dart';
-import 'package:fyp2_clean_architecture/core/repositories/remote/user_remote_repository.dart';
+import 'package:fyp2_clean_architecture/core/repositories/remote/user/user_remote_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'current_user.g.dart';
