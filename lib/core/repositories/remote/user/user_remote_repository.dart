@@ -15,8 +15,7 @@ UserRemoteRepository userRemoteRepository(UserRemoteRepositoryRef ref) {
 }
 
 class UserRemoteRepository {
-  Future<Either<GeneralFailure, UserModel>> getUserData(
-      {required String token}) async {
+  Future<Either<GeneralFailure, UserModel>> getUserData({required String token}) async {
     try {
       final response = await http.get(
         Uri.parse(
@@ -31,14 +30,15 @@ class UserRemoteRepository {
         onTimeout: () {
           throw 'Network Timeout Error';
         },
-      );
+      ).onError((e, st) {
+        throw "Nerwork Error";
+      });
 
       final resBodyMap = jsonDecode(response.body) as Map<String, dynamic>;
 
       if (response.statusCode == 200) {
         return Right(UserModel.fromJson(resBodyMap).copyWith(token: token));
-      } else if (resBodyMap.containsKey('message') &&
-          resBodyMap['message'] != null) {
+      } else if (resBodyMap.containsKey('message') && resBodyMap['message'] != null) {
         throw resBodyMap['message']!;
       } else {
         throw 'Something went wrong';

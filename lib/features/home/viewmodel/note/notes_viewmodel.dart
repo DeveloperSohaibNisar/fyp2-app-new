@@ -2,6 +2,7 @@ import 'package:fyp2_clean_architecture/core/consts.dart';
 import 'package:fyp2_clean_architecture/core/providers/file_uploading/file_uploading.dart';
 import 'package:fyp2_clean_architecture/core/providers/user/current_user.dart';
 import 'package:fyp2_clean_architecture/core/models/note_list_item/note_list_item_model.dart';
+import 'package:fyp2_clean_architecture/core/repositories/remote/note_editor/note_editor_remote_repository.dart';
 import 'package:fyp2_clean_architecture/features/home/repositories/remote/notes/notes_remote_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -60,7 +61,7 @@ class NotesViewmodel extends _$NotesViewmodel {
   }) async {
     final link = ref.keepAlive();
     ref.read(fileUploadingProvider.notifier).setFileUpload();
-    final res = await _notesRemoteRepository.uploadNote(noteName: noteName, token: _token);
+    final res = await ref.read(noteEditorRemoteRepositoryProvider).uploadNote(noteName: noteName, token: _token, content: null, linesCount: null);
 
     res.fold((generalError) => state = AsyncValue.error(generalError.message, StackTrace.current), (data) {
       state = AsyncValue.data([data, ...?state.value]);
@@ -69,23 +70,12 @@ class NotesViewmodel extends _$NotesViewmodel {
     link.close();
   }
 
-  // Future<void> saveNote({
-  //   required NoteListItemModel newNote,
-  // }) async {
-  //   final link = ref.keepAlive();
-  //   ref.read(fileUploadingProvider.notifier).setFileUpload();
-  //   final res = await _notesRemoteRepository.saveNote(note: newNote, token: _token);
-
-  //   res.fold((generalError) => state = AsyncValue.error(generalError.message, StackTrace.current), (data) {
-  //     final index = state.value!.indexWhere((note) => note.id == data.id);
-  //     var newState = state.value!;
-  //     newState.removeAt(index);
-  //     newState.insert(index, data);
-  //     state = AsyncValue.data(newState);
-  //   });
-  //   ref.read(fileUploadingProvider.notifier).unsetFileUpload();
-  //   link.close();
-  // }
+  void updateNote({required NoteListItemModel newNote}) {
+    var newState = state.value!;
+    newState.removeWhere((note) => note.id == newNote.id);
+    newState.add(newNote);
+    state = AsyncValue.data(newState);
+  }
 
   void sortNotes(NotesSortMenuItems? selectedItem) {
     List<NoteListItemModel> newState = state.value ?? [];

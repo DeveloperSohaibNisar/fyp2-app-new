@@ -14,41 +14,45 @@ NotesRemoteRepository notesRemoteRepository(NotesRemoteRepositoryRef ref) {
 }
 
 class NotesRemoteRepository {
-  Future<Either<GeneralFailure, NoteListItemModel>> uploadNote({
-    required String noteName,
-    required String token,
-  }) async {
-    try {
-      final response = await http.post(
-        Uri.parse(
-          '$serverURL/note/',
-        ),
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer $token',
-        },
-        body: jsonEncode({'name': noteName}),
-      );
-      //     .timeout(
-      //   const Duration(seconds: 30),
-      //   onTimeout: () {
-      //     throw 'Network Timeout Error';
-      //   },
-      // );
+  // Future<Either<GeneralFailure, NoteListItemModel>> uploadNote({
+  //   required String noteName,
+  //   required String token,
+  // }) async {
+  //   try {
+  //     final response = await http
+  //         .post(
+  //       Uri.parse(
+  //         '$serverURL/note/',
+  //       ),
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //         'Authorization': 'Bearer $token',
+  //       },
+  //       body: jsonEncode({'name': noteName}),
+  //     )
+  //         .onError((e, st) {
+  //       throw "Nerwork Error";
+  //     });
+  //     //     .timeout(
+  //     //   const Duration(seconds: 30),
+  //     //   onTimeout: () {
+  //     //     throw 'Network Timeout Error';
+  //     //   },
+  //     // );
 
-      final resBodyMap = jsonDecode(response.body) as Map<String, dynamic>;
+  //     final resBodyMap = jsonDecode(response.body) as Map<String, dynamic>;
 
-      if (response.statusCode == 200) {
-        return Right(NoteListItemModel.fromJson(resBodyMap));
-      } else if (resBodyMap.containsKey('message') && resBodyMap['message'] != null) {
-        throw resBodyMap['message']!;
-      } else {
-        throw 'Something went wrong';
-      }
-    } catch (e) {
-      return Left(GeneralFailure(message: e.toString()));
-    }
-  }
+  //     if (response.statusCode == 200) {
+  //       return Right(NoteListItemModel.fromJson(resBodyMap));
+  //     } else if (resBodyMap.containsKey('message') && resBodyMap['message'] != null) {
+  //       throw resBodyMap['message']!;
+  //     } else {
+  //       throw 'Something went wrong';
+  //     }
+  //   } catch (e) {
+  //     return Left(GeneralFailure(message: e.toString()));
+  //   }
+  // }
 
   Future<Either<GeneralFailure, List<NoteListItemModel>>> getPaginatedNotes({
     required String token,

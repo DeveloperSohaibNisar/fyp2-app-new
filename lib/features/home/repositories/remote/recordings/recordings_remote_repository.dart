@@ -12,8 +12,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'recordings_remote_repository.g.dart';
 
 @riverpod
-RecordingsRemoteRepository recordingsRemoteRepository(
-    RecordingsRemoteRepositoryRef ref) {
+RecordingsRemoteRepository recordingsRemoteRepository(RecordingsRemoteRepositoryRef ref) {
   return RecordingsRemoteRepository();
 }
 
@@ -34,8 +33,7 @@ class RecordingsRemoteRepository {
       request
         ..files.addAll(
           [
-            await http.MultipartFile.fromPath('file', selectedAudio.path,
-                contentType: MediaType(mediaType[0], mediaType[1])),
+            await http.MultipartFile.fromPath('file', selectedAudio.path, contentType: MediaType(mediaType[0], mediaType[1])),
           ],
         )
         ..fields.addAll(
@@ -49,7 +47,10 @@ class RecordingsRemoteRepository {
           },
         );
 
-      final response = await request.send();
+      final response = await request.send().onError((e, st) {
+        throw "Nerwork Error";
+      });
+
       // .timeout(
       //   const Duration(seconds: 100),
       //   onTimeout: () {
@@ -61,8 +62,7 @@ class RecordingsRemoteRepository {
       final resBodyMap = jsonDecode(uploadedAudio) as Map<String, dynamic>;
       if (response.statusCode == 200) {
         return Right(RecordingListItemModel.fromJson(resBodyMap));
-      } else if (resBodyMap.containsKey('message') &&
-          resBodyMap['message'] != null) {
+      } else if (resBodyMap.containsKey('message') && resBodyMap['message'] != null) {
         throw resBodyMap['message']!;
       } else {
         throw 'Something went wrong';
@@ -72,16 +72,16 @@ class RecordingsRemoteRepository {
     }
   }
 
-  Future<Either<GeneralFailure, List<RecordingListItemModel>>>
-      getPaginatedRecordings({
+  Future<Either<GeneralFailure, List<RecordingListItemModel>>> getPaginatedRecordings({
     required String token,
     required int page,
   }) async {
     try {
-      final response =
-          await http.get(Uri.parse('$serverURL/audio/$page'), headers: {
+      final response = await http.get(Uri.parse('$serverURL/audio/$page'), headers: {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer $token',
+      })   .onError((e, st) {
+        throw "Nerwork Error";
       });
       // .timeout(
       //   const Duration(seconds: 30),
@@ -98,8 +98,7 @@ class RecordingsRemoteRepository {
           recordings.add(RecordingListItemModel.fromJson(recording));
         }
         return Right(recordings);
-      } else if (resBodyMap.containsKey('message') &&
-          resBodyMap['message'] != null) {
+      } else if (resBodyMap.containsKey('message') && resBodyMap['message'] != null) {
         throw resBodyMap['message']!;
       } else {
         throw 'Something went wrong';

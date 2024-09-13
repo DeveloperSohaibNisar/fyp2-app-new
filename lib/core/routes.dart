@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:fyp2_clean_architecture/core/models/note_argument.dart';
 import 'package:fyp2_clean_architecture/core/models/note_list_item/note_list_item_model.dart';
 import 'package:fyp2_clean_architecture/features/auth/view/signin.dart';
 import 'package:fyp2_clean_architecture/features/auth/view/signup.dart';
@@ -11,7 +10,7 @@ import 'package:fyp2_clean_architecture/features/illegal_argument/view/illegal_a
 import 'package:fyp2_clean_architecture/features/note_editor/view/note_editor_view.dart';
 import 'package:fyp2_clean_architecture/features/pdf_summary/view/pdf_summary_tabs_view.dart';
 import 'package:fyp2_clean_architecture/features/recorder/recorder_view.dart';
-import 'package:fyp2_clean_architecture/features/recording_summary/recording_summary_tabs_view.dart';
+import 'package:fyp2_clean_architecture/features/recording_summary/view/recording_summary_tabs_view.dart';
 import 'package:fyp2_clean_architecture/features/settings/settings_view.dart';
 import 'package:fyp2_clean_architecture/features/splash/view/splash_view.dart';
 
@@ -38,11 +37,8 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
               return const IllegalArgumentView();
             }
           case NoteEditorView.routeName:
-            if (argument is NoteArgument) {
-              return NoteEditorView(
-                note: argument.note,
-                saveNote: argument.saveNote,
-              );
+            if (argument is NoteListItemModel) {
+              return NoteEditorView(initialNote: argument);
             } else {
               return const IllegalArgumentView();
             }

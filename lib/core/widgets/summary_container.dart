@@ -47,26 +47,54 @@ class SummaryContainer extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             // Heading
-            const Text(
-              'Additional Info',
-              textAlign: TextAlign.start,
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 22,
-                fontWeight: FontWeight.w600,
+            if (summaryData.additionalInfo.mainPoints.isNotEmpty && summaryData.additionalInfo.actionItems.isNotEmpty && summaryData.additionalInfo.followUpQuestions.isNotEmpty)
+              const Text(
+                'Additional Info',
+                textAlign: TextAlign.start,
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 22,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
-            ),
             const SizedBox(height: 16),
             // Sub Heading
-            const Text(
-              'Main Points',
-              textAlign: TextAlign.start,
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 20,
-                fontWeight: FontWeight.w500,
+            if (summaryData.additionalInfo.mainPoints.isNotEmpty)
+              const Text(
+                'Main Points',
+                textAlign: TextAlign.start,
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w500,
+                ),
               ),
-            ),
+            for (var item in summaryData.additionalInfo.mainPoints)
+              Column(
+                children: [
+                  const SizedBox(height: 8),
+                  Text(
+                    '\u2022 $item',
+                    textAlign: TextAlign.start,
+                    style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 16,
+                    ),
+                  ),
+                ],
+              ),
+            const SizedBox(height: 16),
+            // Sub Heading
+            if (summaryData.additionalInfo.actionItems.isNotEmpty)
+              const Text(
+                'Potential Action Items',
+                textAlign: TextAlign.start,
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
             for (var item in summaryData.additionalInfo.actionItems)
               Column(
                 children: [
@@ -83,40 +111,16 @@ class SummaryContainer extends StatelessWidget {
               ),
             const SizedBox(height: 16),
             // Sub Heading
-            const Text(
-              'Potential Action Items',
-              textAlign: TextAlign.start,
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 20,
-                fontWeight: FontWeight.w500,
+            if (summaryData.additionalInfo.followUpQuestions.isNotEmpty)
+              const Text(
+                'Follow-Up Questions',
+                textAlign: TextAlign.start,
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w500,
+                ),
               ),
-            ),
-            for (var item in summaryData.additionalInfo.actionItems)
-              Column(
-                children: [
-                  const SizedBox(height: 8),
-                  Text(
-                    '\u2022 $item',
-                    textAlign: TextAlign.start,
-                    style: const TextStyle(
-                      color: Colors.black,
-                      fontSize: 16,
-                    ),
-                  ),
-                ],
-              ),
-            const SizedBox(height: 16),
-            // Sub Heading
-            const Text(
-              'Follow-Up Questions',
-              textAlign: TextAlign.start,
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 20,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
             for (var item in summaryData.additionalInfo.followUpQuestions)
               Column(
                 children: [

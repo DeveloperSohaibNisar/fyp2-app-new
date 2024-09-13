@@ -33,8 +33,7 @@ class PdfsRemoteRepository {
       request
         ..files.addAll(
           [
-            await http.MultipartFile.fromPath('file', selectedPdf.path,
-                contentType: MediaType(mediaType[0], mediaType[1])),
+            await http.MultipartFile.fromPath('file', selectedPdf.path, contentType: MediaType(mediaType[0], mediaType[1])),
           ],
         )
         ..fields.addAll(
@@ -48,7 +47,9 @@ class PdfsRemoteRepository {
           },
         );
 
-      final response = await request.send();
+      final response = await request.send().onError((e, st) {
+        throw "Nerwork Error";
+      });
       // .timeout(
       //   const Duration(seconds: 100),
       //   onTimeout: () {
@@ -60,8 +61,7 @@ class PdfsRemoteRepository {
       final resBodyMap = jsonDecode(uploadedAudio) as Map<String, dynamic>;
       if (response.statusCode == 200) {
         return Right(PdfListItemModel.fromJson(resBodyMap));
-      } else if (resBodyMap.containsKey('message') &&
-          resBodyMap['message'] != null) {
+      } else if (resBodyMap.containsKey('message') && resBodyMap['message'] != null) {
         throw resBodyMap['message']!;
       } else {
         throw 'Something went wrong';
@@ -82,7 +82,9 @@ class PdfsRemoteRepository {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $token',
         },
-      );
+      ).onError((e, st) {
+        throw "Nerwork Error";
+      });
       // .timeout(
       //   const Duration(seconds: 30),
       //   onTimeout: () {
@@ -98,8 +100,7 @@ class PdfsRemoteRepository {
           pdfs.add(PdfListItemModel.fromJson(pdf));
         }
         return Right(pdfs);
-      } else if (resBodyMap.containsKey('message') &&
-          resBodyMap['message'] != null) {
+      } else if (resBodyMap.containsKey('message') && resBodyMap['message'] != null) {
         throw resBodyMap['message']!;
       } else {
         throw 'Something went wrong';

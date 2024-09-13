@@ -14,12 +14,22 @@ NoteEditorRemoteRepository noteEditorRemoteRepository(NoteEditorRemoteRepository
 }
 
 class NoteEditorRemoteRepository {
-  Future<Either<GeneralFailure, NoteListItemModel>> saveNote({
-    required NoteListItemModel note,
+  Future<Either<GeneralFailure, NoteListItemModel>> uploadNote({
+    required String noteName,
+    required List? content,
+    required String? linesCount,
     required String token,
   }) async {
     try {
-      final response = await http.patch(
+      Map<String, dynamic> body = {
+        'name': noteName,
+      };
+
+      if (linesCount != null) body['linesCount'] = linesCount;
+      if (content != null) body['content'] = content;
+
+      final response = await http
+          .post(
         Uri.parse(
           '$serverURL/note/',
         ),
@@ -27,8 +37,51 @@ class NoteEditorRemoteRepository {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $token',
         },
-        body: jsonEncode({'newNote': note}),
-      );
+        body: jsonEncode(body),
+      )
+          .onError((e, st) {
+        throw "Nerwork Error";
+      });
+      //     .timeout(
+      //   const Duration(seconds: 30),
+      //   onTimeout: () {
+      //     throw 'Network Timeout Error';
+      //   },
+      // );
+
+      final resBodyMap = jsonDecode(response.body) as Map<String, dynamic>;
+
+      if (response.statusCode == 200) {
+        return Right(NoteListItemModel.fromJson(resBodyMap));
+      } else if (resBodyMap.containsKey('message') && resBodyMap['message'] != null) {
+        throw resBodyMap['message']!;
+      } else {
+        throw 'Something went wrong';
+      }
+    } catch (e) {
+      return Left(GeneralFailure(message: e.toString()));
+    }
+  }
+
+  Future<Either<GeneralFailure, NoteListItemModel>> saveNote({
+    required NoteListItemModel note,
+    required String token,
+  }) async {
+    try {
+      final response = await http
+          .patch(
+        Uri.parse(
+          '$serverURL/note/',
+        ),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+        body: jsonEncode({'newNote': note.toJson()}),
+      )
+          .onError((e, st) {
+        throw "Nerwork Error";
+      });
       //     .timeout(
       //   const Duration(seconds: 30),
       //   onTimeout: () {

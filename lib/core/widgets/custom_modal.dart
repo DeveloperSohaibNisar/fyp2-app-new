@@ -11,6 +11,7 @@ class CustomModal extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+  fileNameController.text="sumarry${DateTime.now().toIso8601String()}";
     return Padding(
       padding: EdgeInsets.only(
         bottom: (MediaQuery.of(context).viewInsets.bottom + 40),

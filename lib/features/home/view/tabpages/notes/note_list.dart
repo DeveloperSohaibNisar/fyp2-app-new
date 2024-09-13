@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fyp2_clean_architecture/core/models/note_argument.dart';
 import 'package:fyp2_clean_architecture/core/widgets/loader.dart';
 import 'package:fyp2_clean_architecture/core/models/note_list_item/note_list_item_model.dart';
 import 'package:fyp2_clean_architecture/features/home/viewmodel/note/notes_viewmodel.dart';
@@ -122,7 +121,7 @@ class NoteListTile extends ConsumerWidget {
   final NoteListItemModel note;
 
   @override
-  Widget build(BuildContext context,WidgetRef ref) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return ListTile(
       dense: true,
       leading: DecoratedBox(
@@ -151,8 +150,11 @@ class NoteListTile extends ConsumerWidget {
           const Icon(Icons.more_vert),
         ],
       ),
-      onTap: () {
-        // Navigator.pushNamed(context, NoteEditorView.routeName, arguments: NoteArgument(note: note, saveNote: (newNote) => ref.read(notesViewmodelProvider.notifier).saveNote(newNote: newNote)));
+      onTap: () async {
+        var result = await Navigator.pushNamed(context, NoteEditorView.routeName, arguments: note);
+        if (result is NoteListItemModel) {
+          ref.read(notesViewmodelProvider.notifier).updateNote(newNote: result);
+        }
       },
     );
   }

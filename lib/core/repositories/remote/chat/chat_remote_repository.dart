@@ -15,8 +15,7 @@ ChatRemoteRepository chatRemoteRepository(ChatRemoteRepositoryRef ref) {
 }
 
 class ChatRemoteRepository {
-  Future<Either<GeneralFailure, List<ChatModel>>> getChats(
-      {required String token, required String sourceId}) async {
+  Future<Either<GeneralFailure, List<ChatModel>>> getChats({required String token, required String sourceId}) async {
     try {
       final response = await http.get(
         Uri.parse(
@@ -31,7 +30,9 @@ class ChatRemoteRepository {
         onTimeout: () {
           throw 'Network Timeout Error';
         },
-      );
+      ).onError((e, st) {
+        throw "Nerwork Error";
+      });
 
       var resBodyMap = jsonDecode(response.body);
 
@@ -41,8 +42,7 @@ class ChatRemoteRepository {
           chats.add(ChatModel.fromJson(pdf));
         }
         return Right(chats);
-      } else if (resBodyMap.containsKey('message') &&
-          resBodyMap['message'] != null) {
+      } else if (resBodyMap.containsKey('message') && resBodyMap['message'] != null) {
         throw resBodyMap['message']!;
       } else {
         throw 'Something went wrong';
@@ -79,8 +79,7 @@ class ChatRemoteRepository {
 
       if (response.statusCode == 200) {
         return Right(ChatModel.fromJson(resBodyMap));
-      } else if (resBodyMap.containsKey('message') &&
-          resBodyMap['message'] != null) {
+      } else if (resBodyMap.containsKey('message') && resBodyMap['message'] != null) {
         throw resBodyMap['message']!;
       } else {
         throw 'Something went wrong';

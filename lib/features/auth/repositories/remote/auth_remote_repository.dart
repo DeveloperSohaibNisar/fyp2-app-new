@@ -45,24 +45,23 @@ class AuthRemoteRepository {
         onTimeout: () {
           throw 'Network Timeout Error';
         },
-      );
+      ).onError((e, st) {
+        throw "Nerwork Error";
+      });
 
       final resBodyMap = jsonDecode(response.body) as Map<String, dynamic>;
 
       if (response.statusCode == 201) {
         return Right(TokenModel(token: resBodyMap['token']));
       } else if (response.statusCode == 400) {
-        return Left(
-            FormFailure(failure: Left(FormFieldFailure(errors: resBodyMap))));
-      } else if (resBodyMap.containsKey('message') &&
-          resBodyMap['message'] != null) {
+        return Left(FormFailure(failure: Left(FormFieldFailure(errors: resBodyMap))));
+      } else if (resBodyMap.containsKey('message') && resBodyMap['message'] != null) {
         throw resBodyMap['message']!;
       } else {
         throw 'Something went wrong';
       }
     } catch (e) {
-      return Left(
-          FormFailure(failure: Right(GeneralFailure(message: e.toString()))));
+      return Left(FormFailure(failure: Right(GeneralFailure(message: e.toString()))));
     }
   }
 
@@ -91,24 +90,23 @@ class AuthRemoteRepository {
         onTimeout: () {
           throw 'Network Timeout Error';
         },
-      );
+      ).onError((e, st) {
+        throw "Nerwork Error";
+      });
 
       final resBodyMap = jsonDecode(response.body) as Map<String, dynamic>;
 
       if (response.statusCode == 202) {
         return Right(TokenModel(token: resBodyMap['token']));
       } else if (response.statusCode == 400) {
-        return Left(
-            FormFailure(failure: Left(FormFieldFailure(errors: resBodyMap))));
-      } else if (resBodyMap.containsKey('message') &&
-          resBodyMap['message'] != null) {
+        return Left(FormFailure(failure: Left(FormFieldFailure(errors: resBodyMap))));
+      } else if (resBodyMap.containsKey('message') && resBodyMap['message'] != null) {
         throw resBodyMap['message']!;
       } else {
         throw 'Something went wrong';
       }
     } catch (e) {
-      return Left(
-          FormFailure(failure: Right(GeneralFailure(message: e.toString()))));
+      return Left(FormFailure(failure: Right(GeneralFailure(message: e.toString()))));
     }
   }
 }

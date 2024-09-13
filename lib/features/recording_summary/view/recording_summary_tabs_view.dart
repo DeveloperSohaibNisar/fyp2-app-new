@@ -5,22 +5,63 @@ import 'package:fyp2_clean_architecture/core/widgets/summary_container.dart';
 import 'package:fyp2_clean_architecture/core/widgets/chat/chat_view.dart';
 import 'package:fyp2_clean_architecture/features/home/model/recording_list_item/recording_list_item_model.dart';
 import 'package:fyp2_clean_architecture/features/recording_summary/tabpages/transcription/transcription_view.dart';
+import 'package:fyp2_clean_architecture/features/recording_summary/view/widgets/summary_buttons.dart';
+import 'package:fyp2_clean_architecture/features/recording_summary/view/widgets/transcription_buttons.dart';
 
-class RecordTabView extends ConsumerWidget {
+class RecordTabView extends ConsumerStatefulWidget {
   const RecordTabView({super.key, required this.recording});
   final RecordingListItemModel recording;
 
   static const routeName = '/RecordTabView';
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<RecordTabView> createState() => _RecordTabViewState();
+}
+
+class _RecordTabViewState extends ConsumerState<RecordTabView> {
+  late Widget? _tabBottomButtons = TranscriptionButtons(
+    audioUrl: widget.recording.audioUrl,
+    filename: widget.recording.name,
+  );
+  _handleTabSelection(currentIndex) {
+    setState(() {
+      switch (currentIndex) {
+        case 0:
+          setState(() {
+            _tabBottomButtons = TranscriptionButtons(
+              audioUrl: widget.recording.audioUrl,
+              filename: widget.recording.name,
+            );
+          });
+        case 1:
+          setState(() {
+            _tabBottomButtons = SummaryButtons(
+              summaryData: widget.recording.summaryData,
+              filename: widget.recording.name,
+              transcriptionText: widget.recording.transcriptionData.text,
+            );
+          });
+        case 2:
+          setState(() {
+            _tabBottomButtons = null;
+          });
+          break;
+        default:
+          setState(() {
+            _tabBottomButtons = null;
+          });
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return DefaultTabController(
       length: 3,
       child: Scaffold(
         appBar: AppBar(
           toolbarHeight: 50,
-          systemOverlayStyle:
-              const SystemUiOverlayStyle(statusBarColor: Colors.white),
+          systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: Colors.white),
           elevation: 2,
           leadingWidth: 95,
           leading: TextButton(
@@ -51,7 +92,7 @@ class RecordTabView extends ConsumerWidget {
                 // fontSize: 17,
                 // fontWeight: FontWeight.bold,
                 ),
-            recording.name,
+            widget.recording.name,
           ),
           bottom: PreferredSize(
             preferredSize: const Size.fromHeight(140),
@@ -62,10 +103,7 @@ class RecordTabView extends ConsumerWidget {
                 child: Column(
                   children: [
                     DecoratedBox(
-                      decoration: BoxDecoration(
-                          border: Border.all(
-                              color: const Color.fromRGBO(222, 229, 238, 1)),
-                          borderRadius: BorderRadius.circular(30)),
+                      decoration: BoxDecoration(border: Border.all(color: const Color.fromRGBO(222, 229, 238, 1)), borderRadius: BorderRadius.circular(30)),
                       child: TabBar(
                         dividerHeight: 0,
                         indicator: BoxDecoration(
@@ -110,16 +148,15 @@ class RecordTabView extends ConsumerWidget {
           ),
         ),
         body: Container(
-          decoration:
-              const BoxDecoration(color: Color.fromRGBO(246, 249, 252, 1)),
+          decoration: const BoxDecoration(color: Color.fromRGBO(246, 249, 252, 1)),
           padding: const EdgeInsets.only(top: 16),
           child: TabBarView(
             children: [
-              TranscriptionView(recording: recording),
-              SummaryContainer(summaryData: recording.summaryData),
+              TranscriptionView(recording: widget.recording),
+              SummaryContainer(summaryData: widget.recording.summaryData),
               ChatView(
-                additionalInfo: recording.summaryData.additionalInfo,
-                sourceId: recording.id,
+                additionalInfo: widget.recording.summaryData.additionalInfo,
+                sourceId: widget.recording.id,
               ),
             ],
           ),
