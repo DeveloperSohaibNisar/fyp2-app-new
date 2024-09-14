@@ -13,6 +13,7 @@ part 'pdfs_viewmodel.g.dart';
 class PdfsViewmodel extends _$PdfsViewmodel {
   late PdfsRemoteRepository _pdfsRemoteRepository;
   late String _token;
+  List<PdfListItemModel> _data = [];
   bool _hasMore = true;
   int _page = 0;
 
@@ -24,6 +25,7 @@ class PdfsViewmodel extends _$PdfsViewmodel {
     state = const AsyncValue.loading();
     var newState = await AsyncValue.guard(() => _getPaginatedPdfs());
     state = newState;
+    _data = newState.value ?? [];
     return newState.value ?? [];
   }
 
@@ -39,6 +41,7 @@ class PdfsViewmodel extends _$PdfsViewmodel {
         ...newPdfs,
       ];
     });
+    _data = newState.value ?? _data;
     state = newState;
   }
 
@@ -67,6 +70,7 @@ class PdfsViewmodel extends _$PdfsViewmodel {
 
     res.fold((generalError) => state = AsyncValue.error(generalError.message, StackTrace.current), (data) {
       state = AsyncValue.data([data, ...?state.value]);
+      _data = state.value ?? _data;
     });
     ref.read(fileUploadingProvider.notifier).unsetFileUpload();
     link.close();
@@ -87,11 +91,18 @@ class PdfsViewmodel extends _$PdfsViewmodel {
       default:
     }
     state = AsyncValue.data(newState);
+    _data = state.value ?? _data;
   }
 
   void tooglePdfsOrder() {
     List<PdfListItemModel> newState = state.value ?? [];
     newState = newState.reversed.toList();
     state = AsyncValue.data(newState);
+    _data = state.value ?? _data;
+  }
+
+  void filterNotes({required text}) {
+    List<PdfListItemModel> filteredNewState = _data.where((item) => item.name.toLowerCase().contains(text.toLowerCase())).toList();
+    state = AsyncValue.data(filteredNewState);
   }
 }

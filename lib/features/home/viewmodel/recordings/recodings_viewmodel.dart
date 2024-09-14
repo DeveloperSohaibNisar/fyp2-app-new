@@ -13,6 +13,7 @@ part 'recodings_viewmodel.g.dart';
 class RecodingsViewmodel extends _$RecodingsViewmodel {
   late RecordingsRemoteRepository _recordingsRemoteRepository;
   late String _token;
+  List<RecordingListItemModel> _data = [];
   bool _hasMore = true;
   int _page = 0;
 
@@ -24,6 +25,7 @@ class RecodingsViewmodel extends _$RecodingsViewmodel {
     state = const AsyncValue.loading();
     var newState = await AsyncValue.guard(() => _getPaginatedRecordings());
     state = newState;
+    _data = newState.value ?? [];
     return newState.value ?? [];
   }
 
@@ -39,6 +41,7 @@ class RecodingsViewmodel extends _$RecodingsViewmodel {
         ...newRecordings,
       ];
     });
+    _data = newState.value ?? [];
     state = newState;
   }
 
@@ -59,6 +62,7 @@ class RecodingsViewmodel extends _$RecodingsViewmodel {
 
   void addRecording(RecordingListItemModel data) {
     state = AsyncValue.data([data, ...?state.value]);
+    _data = state.value ?? [];
   }
 
   Future<void> uploadRecording({
@@ -71,6 +75,7 @@ class RecodingsViewmodel extends _$RecodingsViewmodel {
 
     res.fold((generalError) => state = AsyncValue.error(generalError.message, StackTrace.current), (data) {
       state = AsyncValue.data([data, ...?state.value]);
+      _data = state.value ?? [];
     });
     ref.read(fileUploadingProvider.notifier).unsetFileUpload();
     link.close();
@@ -91,11 +96,18 @@ class RecodingsViewmodel extends _$RecodingsViewmodel {
       default:
     }
     state = AsyncValue.data(newState);
+    _data = state.value ?? [];
   }
 
   void toogleRecordingsOrder() {
     List<RecordingListItemModel> newState = state.value ?? [];
     newState = newState.reversed.toList();
     state = AsyncValue.data(newState);
+    _data = state.value ?? [];
+  }
+
+  void filterNotes({required text}) {
+    List<RecordingListItemModel> filteredNewState = _data.where((item) => item.name.toLowerCase().contains(text.toLowerCase())).toList();
+    state = AsyncValue.data(filteredNewState);
   }
 }

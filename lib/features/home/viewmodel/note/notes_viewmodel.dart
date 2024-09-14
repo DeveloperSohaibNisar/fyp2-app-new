@@ -12,6 +12,7 @@ part 'notes_viewmodel.g.dart';
 class NotesViewmodel extends _$NotesViewmodel {
   late NotesRemoteRepository _notesRemoteRepository;
   late String _token;
+  List<NoteListItemModel> _data = [];
   bool _hasMore = true;
   int _page = 0;
 
@@ -23,6 +24,7 @@ class NotesViewmodel extends _$NotesViewmodel {
     state = const AsyncValue.loading();
     var newState = await AsyncValue.guard(() => _getPaginatedNotes());
     state = newState;
+    _data = newState.value ?? [];
     return newState.value ?? [];
   }
 
@@ -38,6 +40,7 @@ class NotesViewmodel extends _$NotesViewmodel {
         ...newNotes,
       ];
     });
+    _data = newState.value ?? _data;
     state = newState;
   }
 
@@ -65,6 +68,7 @@ class NotesViewmodel extends _$NotesViewmodel {
 
     res.fold((generalError) => state = AsyncValue.error(generalError.message, StackTrace.current), (data) {
       state = AsyncValue.data([data, ...?state.value]);
+      _data = state.value ?? _data;
     });
     ref.read(fileUploadingProvider.notifier).unsetFileUpload();
     link.close();
@@ -75,6 +79,7 @@ class NotesViewmodel extends _$NotesViewmodel {
     newState.removeWhere((note) => note.id == newNote.id);
     newState.add(newNote);
     state = AsyncValue.data(newState);
+    _data = state.value ?? _data;
   }
 
   void sortNotes(NotesSortMenuItems? selectedItem) {
@@ -96,11 +101,18 @@ class NotesViewmodel extends _$NotesViewmodel {
     }
 
     state = AsyncValue.data(newState);
+    _data = state.value ?? _data;
   }
 
   void toogleNotesOrder() {
     List<NoteListItemModel> newState = state.value ?? [];
     newState = newState.reversed.toList();
     state = AsyncValue.data(newState);
+    _data = state.value ?? _data;
+  }
+
+  void filterNotes({required text}) {
+    List<NoteListItemModel> filteredNewState = _data.where((item) => item.name.toLowerCase().contains(text.toLowerCase())).toList();
+    state = AsyncValue.data(filteredNewState);
   }
 }

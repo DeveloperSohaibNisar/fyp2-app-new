@@ -17,8 +17,8 @@ class SignIn extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    emailController.text = 'sohaib@gmail.com';
-    passwordController.text = '123456';
+    // emailController.text = 'sohaib@gmail.com';
+    // passwordController.text = '123456';
 
     ref.listen(authViewModelProvider, (prev, next) {
       next?.when(

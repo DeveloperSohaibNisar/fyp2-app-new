@@ -3,8 +3,27 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fyp2_clean_architecture/core/consts.dart';
 import 'package:fyp2_clean_architecture/features/home/viewmodel/note/notes_viewmodel.dart';
 
-class NoteFilterContainer extends StatelessWidget {
+class NoteFilterContainer extends ConsumerStatefulWidget {
   const NoteFilterContainer({super.key});
+
+  @override
+  ConsumerState<NoteFilterContainer> createState() => _NoteFilterContainerState();
+}
+
+class _NoteFilterContainerState extends ConsumerState<NoteFilterContainer> {
+  late TextEditingController _searchTextController;
+  @override
+  void initState() {
+    _searchTextController = TextEditingController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _searchTextController.text="";
+    _searchTextController.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,8 +47,12 @@ class NoteFilterContainer extends StatelessWidget {
                       selectionHandleColor: Color(0xFFFE600C),
                     ),
                   ),
-                  child: const TextField(
-                    decoration: InputDecoration(
+                  child: TextField(
+                    controller: _searchTextController,
+                    onChanged: (value) {
+                      ref.read(notesViewmodelProvider.notifier).filterNotes(text: value.toLowerCase());
+                    },
+                    decoration: const InputDecoration(
                       contentPadding: EdgeInsets.all(8),
                       filled: true,
                       fillColor: Color.fromRGBO(118, 118, 128, 0.12),

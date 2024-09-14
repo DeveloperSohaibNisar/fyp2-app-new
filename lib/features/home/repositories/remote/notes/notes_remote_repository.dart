@@ -65,7 +65,10 @@ class NotesRemoteRepository {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $token',
         },
-      );
+      )
+          .onError((e, st) {
+        throw "Nerwork Error";
+      });
       // .timeout(
       //   const Duration(seconds: 30),
       //   onTimeout: () {

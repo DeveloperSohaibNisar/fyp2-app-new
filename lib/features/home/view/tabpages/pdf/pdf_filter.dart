@@ -3,8 +3,27 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fyp2_clean_architecture/core/consts.dart';
 import 'package:fyp2_clean_architecture/features/home/viewmodel/pdf/pdfs_viewmodel.dart';
 
-class PdfFilterContainer extends StatelessWidget {
+class PdfFilterContainer extends ConsumerStatefulWidget {
   const PdfFilterContainer({super.key});
+
+  @override
+  ConsumerState<PdfFilterContainer> createState() => _PdfFilterContainerState();
+}
+
+class _PdfFilterContainerState extends ConsumerState<PdfFilterContainer> {
+  late TextEditingController _searchTextController;
+  @override
+  void initState() {
+    _searchTextController = TextEditingController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _searchTextController.text = "";
+    _searchTextController.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,8 +47,12 @@ class PdfFilterContainer extends StatelessWidget {
                       selectionHandleColor: Color(0xFFFE600C),
                     ),
                   ),
-                  child: const TextField(
-                    decoration: InputDecoration(
+                  child: TextField(
+                    controller: _searchTextController,
+                    onChanged: (value) {
+                      ref.read(pdfsViewmodelProvider.notifier).filterNotes(text: value.toLowerCase());
+                    },
+                    decoration: const InputDecoration(
                       contentPadding: EdgeInsets.all(8),
                       filled: true,
                       fillColor: Color.fromRGBO(118, 118, 128, 0.12),

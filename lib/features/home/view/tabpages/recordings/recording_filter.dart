@@ -3,8 +3,27 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fyp2_clean_architecture/core/consts.dart';
 import 'package:fyp2_clean_architecture/features/home/viewmodel/recordings/recodings_viewmodel.dart';
 
-class RecordingFilterContainer extends StatelessWidget {
+class RecordingFilterContainer extends ConsumerStatefulWidget {
   const RecordingFilterContainer({super.key});
+
+  @override
+  ConsumerState<RecordingFilterContainer> createState() => _RecordingFilterContainerState();
+}
+
+class _RecordingFilterContainerState extends ConsumerState<RecordingFilterContainer> {
+  late TextEditingController _searchTextController;
+  @override
+  void initState() {
+    _searchTextController = TextEditingController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _searchTextController.text = "";
+    _searchTextController.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,8 +47,12 @@ class RecordingFilterContainer extends StatelessWidget {
                       selectionHandleColor: Color(0xFFFE600C),
                     ),
                   ),
-                  child: const TextField(
-                    decoration: InputDecoration(
+                  child: TextField(
+                    controller: _searchTextController,
+                    onChanged: (value) {
+                      ref.read(recodingsViewmodelProvider.notifier).filterNotes(text: value.toLowerCase());
+                    },
+                    decoration: const InputDecoration(
                       contentPadding: EdgeInsets.all(8),
                       filled: true,
                       fillColor: Color.fromRGBO(118, 118, 128, 0.12),

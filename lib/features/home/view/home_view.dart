@@ -103,6 +103,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                 child: DecoratedBox(
                   decoration: BoxDecoration(border: Border.all(color: const Color.fromRGBO(222, 229, 238, 1)), borderRadius: BorderRadius.circular(30)),
                   child: TabBar(
+                    onTap: (_) => FocusManager.instance.primaryFocus?.unfocus(),
                     dividerHeight: 0,
                     indicator: BoxDecoration(
                       gradient: const LinearGradient(
@@ -121,8 +122,8 @@ class _HomeViewState extends ConsumerState<HomeView> {
                     splashBorderRadius: BorderRadius.circular(30),
                     padding: const EdgeInsets.all(8),
                     tabs: const [
-                      Tab(text: 'Chat PDF'),
                       Tab(text: 'Meeting Assitance'),
+                      Tab(text: 'Chat PDF'),
                       Tab(text: 'My Note'),
                     ],
                   ),
@@ -185,8 +186,8 @@ class _HomeViewState extends ConsumerState<HomeView> {
           ),
           body: const TabBarView(
             children: [
-              PdfView(),
               RecordingView(),
+              PdfView(),
               NoteView(),
               // Notes(),
             ],

@@ -40,7 +40,7 @@ class _TranscriptionViewState extends State<TranscriptionView> with WidgetsBindi
     // Try to load audio from a source and catch any errors.
     try {
       // MP3 example: https://www.flatworldsolutions.com/transcription/samples/Monologue.mp3
-      await _player.setAudioSource(AudioSource.uri(Uri.parse(widget.recording.audioUrl)));
+      await _player.setAudioSource(AudioSource.uri(Uri.parse(widget.recording.audioUrl.replaceAll('localhost', '10.0.2.2'))));
     } catch (e) {
       if (kDebugMode) {
         print("Error loading audio source: $e");
@@ -163,7 +163,6 @@ class _TranscriptionViewState extends State<TranscriptionView> with WidgetsBindi
 /// Displays the play/pause button and volume/speed sliders.
 class ControlButtons extends StatelessWidget {
   final AudioPlayer player;
-
   const ControlButtons(this.player, {super.key});
 
   @override
@@ -206,7 +205,11 @@ class ControlButtons extends StatelessWidget {
               icon: const Icon(Icons.replay_5),
               iconSize: 45,
               onPressed: () {
-                player.seek(player.position - const Duration(seconds: 5));
+                if (player.position < const Duration(seconds: 6)) {
+                  player.seek(const Duration(seconds: 0));
+                } else {
+                  player.seek(const Duration(seconds: 5));
+                }
               },
             ),
             const SizedBox(width: 30),
@@ -251,7 +254,11 @@ class ControlButtons extends StatelessWidget {
               icon: const Icon(Icons.replay_5),
               iconSize: 45,
               onPressed: () {
-                player.seek(player.position - const Duration(seconds: 5));
+                if (player.position < const Duration(seconds: 6)) {
+                  player.seek(const Duration(seconds: 0));
+                } else {
+                  player.seek(const Duration(seconds: 5));
+                }
               },
             ),
             const SizedBox(width: 30),
@@ -286,7 +293,12 @@ class ControlButtons extends StatelessWidget {
               icon: const Icon(Icons.forward_5),
               iconSize: 45,
               onPressed: () {
-                player.seek(player.position + const Duration(seconds: 5));
+                if (player.position + const Duration(seconds: 5) > (player.duration ?? Duration.zero)) {
+                  player.seek(player.position + (player.duration ?? Duration.zero));
+                }
+                {
+                  player.seek(player.position + const Duration(seconds: 5));
+                }
               },
             ),
           ]);

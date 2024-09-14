@@ -147,10 +147,10 @@ pw.Document generatePdf({required SummaryData summaryData, required String? tran
               pw.Column(children: [
                 pw.Text(
                   'Transcription',
-                  // textAlign: TextAlign.left,
+                  textAlign: pw.TextAlign.left,
                   style: pw.TextStyle(
                     color: const PdfColor(0, 0, 0),
-                    fontSize: 22,
+                    fontSize: 20,
                     fontWeight: pw.FontWeight.bold,
                   ),
                 ),
@@ -171,7 +171,7 @@ pw.Document generatePdf({required SummaryData summaryData, required String? tran
               // textAlign: TextAlign.left,
               style: pw.TextStyle(
                 color: const PdfColor(0, 0, 0),
-                fontSize: 22,
+                fontSize: 20,
                 fontWeight: pw.FontWeight.bold,
               ),
             ),
@@ -192,7 +192,7 @@ pw.Document generatePdf({required SummaryData summaryData, required String? tran
                 textAlign: pw.TextAlign.left,
                 style: pw.TextStyle(
                   color: const PdfColor(0, 0, 0),
-                  fontSize: 22,
+                  fontSize: 20,
                   fontWeight: pw.FontWeight.bold,
                 ),
               ),
@@ -204,7 +204,7 @@ pw.Document generatePdf({required SummaryData summaryData, required String? tran
                 textAlign: pw.TextAlign.left,
                 style: pw.TextStyle(
                   color: const PdfColor(0, 0, 0),
-                  fontSize: 20,
+                  fontSize: 18,
                   fontWeight: pw.FontWeight.bold,
                 ),
               ),
@@ -230,7 +230,7 @@ pw.Document generatePdf({required SummaryData summaryData, required String? tran
                 textAlign: pw.TextAlign.left,
                 style: pw.TextStyle(
                   color: const PdfColor(0, 0, 0),
-                  fontSize: 20,
+                  fontSize: 18,
                   fontWeight: pw.FontWeight.bold,
                 ),
               ),
@@ -256,7 +256,7 @@ pw.Document generatePdf({required SummaryData summaryData, required String? tran
                 textAlign: pw.TextAlign.left,
                 style: pw.TextStyle(
                   color: const PdfColor(0, 0, 0),
-                  fontSize: 20,
+                  fontSize: 18,
                   fontWeight: pw.FontWeight.bold,
                 ),
               ),
@@ -285,7 +285,7 @@ pw.Document generatePdf({required SummaryData summaryData, required String? tran
 List generateQuillContent({required SummaryData summaryData, required String? transcriptionText}) {
   List quillContent = [
     {
-      "insert": "Data Lake Architecture\n",
+      "insert": "${summaryData.title}\n",
       "attributes": {"bold": true, "header": 1, "align": "center"}
     },
   ];
@@ -348,7 +348,7 @@ List generateQuillContent({required SummaryData summaryData, required String? tr
       },
     );
 
-    for (var item in summaryData.additionalInfo.mainPoints) {
+    for (var item in summaryData.additionalInfo.actionItems) {
       quillContent.add({
         "insert": "$item\n",
         "attributes": {"list": "bullet"}
@@ -365,7 +365,7 @@ List generateQuillContent({required SummaryData summaryData, required String? tr
       },
     );
 
-    for (var item in summaryData.additionalInfo.mainPoints) {
+    for (var item in summaryData.additionalInfo.followUpQuestions) {
       quillContent.add({
         "insert": "$item\n",
         "attributes": {"list": "bullet"}
@@ -375,3 +375,4 @@ List generateQuillContent({required SummaryData summaryData, required String? tr
 
   return quillContent;
 }
+

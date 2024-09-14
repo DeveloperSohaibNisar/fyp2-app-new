@@ -62,7 +62,7 @@ class _PdfTabsViewState extends ConsumerState<PdfTabsView> {
             appBar: AppBar(
               toolbarHeight: 50,
               systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: Colors.white),
-              elevation: 4,
+              elevation: 2,
               surfaceTintColor: Colors.grey,
               leadingWidth: 95,
               leading: TextButton(

@@ -30,12 +30,13 @@ class DownloadButtonLocal extends ConsumerWidget {
 
         if (!isStoragePermissionGranted) return;
 
+        ref.read(fileUploadingProvider.notifier).setFileUpload();
         final pdf = generatePdf(
           summaryData: summaryData,
           transcriptionText: transcriptionText,
         );
+
         final path = await getDownLoadPath();
-        ref.read(fileUploadingProvider.notifier).setFileUpload();
         File file = File('$path/$filename-summary.pdf');
         await file.writeAsBytes(await pdf.save());
         ref.read(fileUploadingProvider.notifier).unsetFileUpload();

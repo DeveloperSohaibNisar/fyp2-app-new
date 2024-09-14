@@ -39,7 +39,8 @@ class EditButton extends ConsumerWidget {
           summaryData: summaryData,
           transcriptionText: transcriptionText,
         );
-        var note = await ref.read(noteEditorViewmodelProvider.notifier).createNote(noteName: name ?? '', content: content, linesCount: '0');
+
+        var note = await ref.read(noteEditorViewmodelProvider.notifier).createNote(noteName: name ?? '', content: content, linesCount: content.length.toString());
         if (note != null) {
           SchedulerBinding.instance.addPostFrameCallback((_) {
             Navigator.pushNamed(context, NoteEditorView.routeName, arguments: note);

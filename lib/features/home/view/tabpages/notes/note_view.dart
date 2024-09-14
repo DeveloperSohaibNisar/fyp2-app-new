@@ -22,7 +22,7 @@ class NoteView extends ConsumerWidget {
     return Container(
       decoration: const BoxDecoration(color: Colors.white),
       child: Column(
-        children: [const NoteFilterContainer(), Flexible(child: NoteList())],
+        children: [NoteFilterContainer(), Flexible(child: NoteList())],
       ),
     );
   }
